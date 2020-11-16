@@ -22,19 +22,19 @@ class MoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationController()
+        testButton()
+    }
+
+    func testButton() {
+        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 140, height: 50))
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle("About Movie", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+
+        self.view.addSubview(button)
     }
     
-    private func setNavigationController() {
-        navigationController?.navigationBar.barTintColor = .darkGray
-        navigationController?.navigationBar.barStyle = .black
-        
-        navigationItem.title = "Movies"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu")?.withRenderingMode(.alwaysOriginal),
-                                                           style: .plain, target: self, action: #selector(didTapLeftBarButton))
-    }
-    
-    @objc func didTapLeftBarButton() {
-        viewModel.didTapMenu()
+    @objc func buttonAction(sender: UIButton!) {
+        viewModel.didTapMoview()
     }
 }

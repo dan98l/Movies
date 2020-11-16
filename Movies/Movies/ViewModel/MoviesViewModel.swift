@@ -12,7 +12,7 @@ final class MoviesViewModel {
     
     var coordinator: MoviesCoordinator?
     
-    func didTapMenu() {
+    func didTapMoview() {
         coordinator?.startMenu()
     }
     

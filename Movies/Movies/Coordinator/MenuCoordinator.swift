@@ -16,9 +16,9 @@ final class MenuCoordinator: Coordinator {
     }
     
     func start() {
-        let menuViewController = MenuViewController.instantiate
+        let menuViewController = AboutMovieViewController.instantiate
         
-        let menuViewModel = MenuViewModel()
+        let menuViewModel = AboutMovieViewModel()
         menuViewModel.coordinator = self
         menuViewController().viewModel = menuViewModel
         

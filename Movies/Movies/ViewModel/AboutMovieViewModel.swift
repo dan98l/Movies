@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class MenuViewModel {
+final class AboutMovieViewModel {
     
     var coordinator: MenuCoordinator?
     

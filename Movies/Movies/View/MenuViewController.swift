@@ -8,13 +8,13 @@
 
 import UIKit
 
-class MenuViewController: UIViewController {
+class AboutViewController: UIViewController {
     
     var viewModel: MenuViewModel!
     
-    static func instantiate() -> MenuViewController {
+    static func instantiate() -> AboutViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let controller = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        let controller = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! AboutViewController
 
         return controller
     }

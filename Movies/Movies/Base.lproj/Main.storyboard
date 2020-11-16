@@ -22,10 +22,10 @@
             </objects>
             <point key="canvasLocation" x="141" y="85"/>
         </scene>
-        <!--Menu View Controller-->
+        <!--About Movie View Controller-->
         <scene sceneID="cyH-Uv-SWp">
             <objects>
-                <viewController storyboardIdentifier="MenuViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OAN-I2-Smu" customClass="MenuViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AboutMovieViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="OAN-I2-Smu" customClass="AboutMovieViewController" customModule="Movies" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jsh-cC-BBc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
