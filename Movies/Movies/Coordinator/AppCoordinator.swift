@@ -23,8 +23,14 @@ class AppCoordinator: Coordinator {
     func start() {
         let moviesCoordinator = MoviesCoordinator(navigationController: navigationController)
         moviesCoordinator.start()
+        moviesCoordinator.parentCoordinator = self
         
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
+    }
+    
+    func startAboutMovie() {
+        let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
+        aboutMovieCoordinator.start()
     }
 }
