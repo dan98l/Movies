@@ -23,22 +23,28 @@ class MoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        menu = SideMenuNavigationController(rootViewController: UIViewController())
-        menu?.leftSide = true
-        
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
          
         setNavigationController()
+        setMenu()
         testButton()
+    }
+    
+    private func setMenu() {
+        menu = SideMenuNavigationController(rootViewController: MenuViewController())
+        menu?.leftSide = true
+        SideMenuManager.default.leftMenuNavigationController = menu
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
     }
 
     private func setNavigationController() {
         navigationController?.navigationBar.barTintColor = .darkGray
         navigationController?.navigationBar.barStyle = .black
         navigationItem.title = "Movies"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "menu")?.withRenderingMode(.alwaysOriginal),
-        style: .plain, target: self, action: #selector(didTapLeftBarButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: #selector(didTapLeftBarButton))
+    }
+    
+    @objc func didTapLeftBarButton() {
+        present(menu!, animated: true)
     }
     
     func testButton() {
@@ -48,10 +54,6 @@ class MoviesViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
 
         self.view.addSubview(button)
-    }
-    
-    @objc func didTapLeftBarButton() {
-        present(menu!, animated: true)
     }
     
     @objc func buttonAction(sender: UIButton!) {
