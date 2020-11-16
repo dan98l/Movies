@@ -1,5 +1,5 @@
 //
-//  MenuViewModel.swift
+//  AboutMovieViewModel.swift
 //  Movies
 //
 //  Created by Daniil G on 16.11.2020.
@@ -10,6 +10,6 @@ import Foundation
 
 final class AboutMovieViewModel {
     
-    var coordinator: MenuCoordinator?
+    var coordinator: AboutMovieCoordinator?
     
 }
