@@ -9,10 +9,14 @@
 import UIKit
 
 class MenuViewController: UIViewController {
+    
+    var viewModel = MenuViewModel()
     private var menuTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("I'm here! (Menu)")
         
         setNavigationController()
         setBackgroundColor()
@@ -38,6 +42,8 @@ class MenuViewController: UIViewController {
         menuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
         menuTableView.dataSource = self
         menuTableView.delegate = self
+        menuTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        menuTableView.backgroundColor = .darkGray
         self.view.addSubview(menuTableView)
     }
     
@@ -52,13 +58,21 @@ class MenuViewController: UIViewController {
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didTapSettings()
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath as IndexPath)
-        cell.textLabel!.text = "Settings"
+        cell.textLabel?.textColor = .white
+        cell.backgroundColor = .darkGray
+        cell.textLabel?.text = "Settings"
+        
         return cell
     }
 }

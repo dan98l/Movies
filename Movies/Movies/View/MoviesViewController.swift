@@ -8,9 +8,14 @@
 
 import SideMenu
 import UIKit
+import Alamofire
 
 class MoviesViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    @IBOutlet private weak var table: UITableView!
+    
+    // MARK: - Properties
     var viewModel: MoviesViewModel!
     var menu: SideMenuNavigationController?
     
@@ -23,10 +28,10 @@ class MoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         
+            
         setNavigationController()
         setMenu()
-        testButton()
+        setupTableView()
     }
     
     private func setMenu() {
@@ -52,16 +57,24 @@ class MoviesViewController: UIViewController {
         present(menu!, animated: true)
     }
     
-    func testButton() {
-        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 140, height: 50))
-        button.setTitleColor(.red, for: .normal)
-        button.setTitle("About Movie", for: .normal)
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+    private func setupTableView() {
+        viewModel.getPopularMovies() { [weak self] in
+            self?.table.delegate = self
+            self?.table.dataSource = self
+            self?.table.reloadData()
+        }
+    }
+}
 
-        self.view.addSubview(button)
+// MARK: - TableView DataSource
+extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRowsInSection(section: section)
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        viewModel.didTapMoview()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell =  UITableViewCell()
+        cell.backgroundColor = .red
+        return cell
     }
 }

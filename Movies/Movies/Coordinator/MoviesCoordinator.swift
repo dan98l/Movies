@@ -10,7 +10,6 @@ import UIKit
 
 final class MoviesCoordinator: Coordinator {
     private var navigationController = UINavigationController()
-    var parentCoordinator: AppCoordinator?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -27,6 +26,7 @@ final class MoviesCoordinator: Coordinator {
     }
     
     func startAboutMovie() {
-        parentCoordinator?.startAboutMovie()
+        let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
+        aboutMovieCoordinator.start()
     }
 }

@@ -14,13 +14,38 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d0t-cY-RoK">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="j9P-Q2-Ehr">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j9P-Q2-Ehr" id="njj-JE-fo7">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="d0t-cY-RoK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Gbn-dI-JfZ"/>
+                            <constraint firstItem="d0t-cY-RoK" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="aea-XK-nLF"/>
+                            <constraint firstItem="d0t-cY-RoK" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="jgW-aW-sjX"/>
+                            <constraint firstItem="d0t-cY-RoK" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="zmR-0H-7mZ"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="table" destination="d0t-cY-RoK" id="X72-8x-DJr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="141" y="85"/>
+            <point key="canvasLocation" x="140.57971014492756" y="84.375"/>
         </scene>
         <!--About Movie View Controller-->
         <scene sceneID="cyH-Uv-SWp">
