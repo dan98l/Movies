@@ -20,7 +20,17 @@ class MenuViewController: UIViewController {
     }
     
     private func setTableView() {
-        let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
+        
+        let barHeight: CGFloat = {
+            var heightToReturn: CGFloat = 0.0
+                 for window in UIApplication.shared.windows {
+                     if let height = window.windowScene?.statusBarManager?.statusBarFrame.height, height > heightToReturn {
+                         heightToReturn = height
+                     }
+                 }
+            return heightToReturn
+        }()
+        
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
 
