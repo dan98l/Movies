@@ -6,18 +6,14 @@
 //  Copyright © 2020 Daniil G. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 final class MoviesViewModel {
     
+    // MARK: - Properties
     var coordinator: MoviesCoordinator?
     let apiService = APIService(urlString: "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page=1")
-    
     private var popularMovies = [Movie]()
-    
-    func didTapMoview() {
-        coordinator?.startAboutMovie()
-    }
     
     func getPopularMovies(completion: @escaping (() -> Void)) {
         apiService.getMoviesData(completion: { [weak self] result in
@@ -37,4 +33,21 @@ final class MoviesViewModel {
         }
         return 0
     }
+    
+    func cellForRowAt (indexPath: IndexPath) -> Movie {
+        return popularMovies[indexPath.row]
+    }
+    
+    func didTapMoviesCell(idMovie: Int) {
+        coordinator?.showDitailMovie()
+    }
+    
+    func getImageMovie(indexPath: IndexPath, completion: @escaping ((Data) -> Void)) {
+        guard let posterPath = popularMovies[indexPath.row].posterPath else { return }
+        
+        apiService.getImageMovie(posterPath: posterPath) { data in
+            completion(data)
+        }
+    }
+    
 }

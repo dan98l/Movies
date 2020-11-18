@@ -68,13 +68,22 @@ class MoviesViewController: UIViewController {
 
 // MARK: - TableView DataSource
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection(section: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =  UITableViewCell()
-        cell.backgroundColor = .red
+        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DitailMovieCell
+        let movie = viewModel.cellForRowAt(indexPath: indexPath)
+        viewModel.getImageMovie(indexPath: indexPath) { data in
+            cell.dataImage = data
+            cell.movie = movie
+        }
         return cell
     }
 }

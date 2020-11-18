@@ -25,7 +25,7 @@ final class MoviesCoordinator: Coordinator {
         navigationController.setViewControllers([showMoviesViewController], animated: true)
     }
     
-    func startAboutMovie() {
+    func showDitailMovie() {
         let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
         aboutMovieCoordinator.start()
     }

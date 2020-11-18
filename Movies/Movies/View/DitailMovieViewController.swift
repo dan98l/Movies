@@ -8,13 +8,13 @@
 
 import UIKit
 
-class AboutMovieViewController: UIViewController {
+class DitailMovieViewController: UIViewController {
     
     var viewModel: AboutMovieViewModel!
     
-    static func instantiate() -> AboutMovieViewController {
+    static func instantiate() -> DitailMovieViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let controller = storyboard.instantiateViewController(withIdentifier: "AboutMovieViewController") as! AboutMovieViewController
+        let controller = storyboard.instantiateViewController(withIdentifier: "DitailMovieViewController") as! DitailMovieViewController
 
         return controller
     }
