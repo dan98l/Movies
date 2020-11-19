@@ -11,30 +11,32 @@ import UIKit
 class DitailMovieCell: UITableViewCell {
     // MARK: - IBOutlets
     @IBOutlet private weak var movieImageView: UIImageView!
-    @IBOutlet private weak var movieDate: UILabel!
+    @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet private weak var movieAverage: UILabel!
     @IBOutlet private weak var movieOverview: UILabel!
-    @IBOutlet private weak var movieTitle: UILabel!
-    @IBOutlet private weak var clickButton: UIButton!
     
     // MARK: - Properties
     var dataImage: Data?
     
-    var movie: Movie! {
+    var movie: Movies! {
         didSet {
             updateMovieUI()
         }
     }
     
     private func updateMovieUI() {
-        guard let title = movie.title else { return }
-        self.movieTitle.text = title
         
-        guard let average = movie.voteAverage else { return }
-        self.movieAverage.text = String(average)
+        if let title = movie.title {
+            self.movieTitle.text = title
+        }
         
-        guard let overview = movie.overview else { return }
-        self.movieOverview.text = overview
+        if let average = movie.voteAverage {
+            self.movieAverage.text = String(format: "%.1f", average)
+        }
+        
+        if let overview = movie.overview {
+            self.movieOverview.text = overview
+        }
         
         guard let data = dataImage else { return }
         if let image = UIImage(data: data) {

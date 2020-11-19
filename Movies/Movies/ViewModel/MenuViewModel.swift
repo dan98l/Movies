@@ -11,6 +11,6 @@ import UIKit
 class MenuViewModel {
     
     func didTapSettings() {
-        print("MenuViewModel")
+        print("didTapSettings()")
     }
 }

@@ -8,8 +8,6 @@
 
 import Foundation
 
-final class AboutMovieViewModel {
-    
+final class DitailMovieViewModel {
     var coordinator: AboutMovieCoordinator?
-    
 }

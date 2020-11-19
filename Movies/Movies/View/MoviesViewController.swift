@@ -58,11 +58,11 @@ class MoviesViewController: UIViewController {
     }
     
     private func setupTableView() {
-        viewModel.getPopularMovies() { [weak self] in
-            self?.table.delegate = self
-            self?.table.dataSource = self
-            self?.table.reloadData()
-        }
+        viewModel.getPopularMovies(completion: {
+            self.table.delegate = self
+            self.table.dataSource = self
+            self.table.reloadData()
+        })
     }
 }
 
@@ -70,7 +70,7 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        viewModel.didTapMoviesCell(idMovie: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,11 +79,12 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DitailMovieCell
-        let movie = viewModel.cellForRowAt(indexPath: indexPath)
+        let movie = viewModel.cellForRowAt(index: indexPath.row)
         viewModel.getImageMovie(indexPath: indexPath) { data in
             cell.dataImage = data
             cell.movie = movie
         }
+        cell.selectionStyle = .none
         return cell
     }
 }

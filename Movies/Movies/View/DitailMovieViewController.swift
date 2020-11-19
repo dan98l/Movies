@@ -10,7 +10,7 @@ import UIKit
 
 class DitailMovieViewController: UIViewController {
     
-    var viewModel: AboutMovieViewModel!
+    var viewModel: DitailMovieViewModel!
     
     static func instantiate() -> DitailMovieViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)

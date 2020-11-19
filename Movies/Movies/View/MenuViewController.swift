@@ -16,8 +16,6 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("I'm here! (Menu)")
-        
         setNavigationController()
         setBackgroundColor()
         setTableView()
@@ -72,6 +70,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .darkGray
         cell.textLabel?.text = "Settings"
+        cell.selectionStyle = .none
         
         return cell
     }

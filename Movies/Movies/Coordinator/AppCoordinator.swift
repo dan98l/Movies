@@ -26,4 +26,8 @@ class AppCoordinator: Coordinator {
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
+    
+    func showSettingsView() {
+        print("showSettingsView()")
+    }
 }

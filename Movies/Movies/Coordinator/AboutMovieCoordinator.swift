@@ -18,7 +18,7 @@ final class AboutMovieCoordinator: Coordinator {
     func start() {
         let aboutMovieViewController = DitailMovieViewController.instantiate
         
-        let aboutMovieViewModel = AboutMovieViewModel()
+        let aboutMovieViewModel = DitailMovieViewModel()
         aboutMovieViewModel.coordinator = self
         aboutMovieViewController().viewModel = aboutMovieViewModel
         
