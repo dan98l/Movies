@@ -8,9 +8,15 @@
 
 import UIKit
 
+protocol MenuViewModelDelegate: class {
+    func test()
+}
+
 class MenuViewModel {
     
+   weak var delegate: MenuViewModelDelegate?
+    
     func didTapSettings() {
-        print("didTapSettings()")
+        delegate?.test()
     }
 }

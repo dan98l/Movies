@@ -8,8 +8,12 @@
 
 import UIKit
 
-final class MoviesCoordinator: Coordinator {
+final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
+    
+    // MARK: - Properties
     private var navigationController = UINavigationController()
+    var parentCoordinator: AppCoordinator?
+    var dataMenager = DataManager()
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -18,8 +22,9 @@ final class MoviesCoordinator: Coordinator {
     func start() {
         let showMoviesViewController = MoviesViewController.instantiate()
         
-        let moviesViewModel = MoviesViewModel()
+        let moviesViewModel = MoviesViewModel(apiService: checkDataSourse())
         moviesViewModel.coordinator = self
+        moviesViewModel.delegate = self
         showMoviesViewController.viewModel = moviesViewModel
         
         navigationController.setViewControllers([showMoviesViewController], animated: true)
@@ -28,5 +33,22 @@ final class MoviesCoordinator: Coordinator {
     func showDitailMovie() {
         let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
         aboutMovieCoordinator.start()
+        print("1 coordinator")
+    }
+    
+    func showMenu() {
+        parentCoordinator?.showMenu()
+        print("2 coordinator")
+    }
+    
+    func checkDataSourse() -> APIService {
+        switch dataMenager.getDataSourse() {
+        case "APIServiceTmbd":
+            return APIServiceTmbd()
+        case "APIServiceKinopoisk":
+            return APIServiceKinopoisk()
+        default:
+           return APIServiceTmbd()
+        }
     }
 }

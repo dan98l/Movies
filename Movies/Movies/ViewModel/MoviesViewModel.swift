@@ -8,13 +8,21 @@
 
 import UIKit
 
+protocol MoviesViewModelDelegate: class {
+    func showDitailMovie()
+    func showMenu()
+}
+
 final class MoviesViewModel {
     
     // MARK: - Properties
-    var coordinator: MoviesCoordinator?
+    var coordinator: Coordinator?
+    var apiService: APIService!
+    weak var delegate: MoviesViewModelDelegate?
     
-    var apiService: APIService = APIServiceTmbd()
-//    var apiService: APIService = APIServiceKinopoisk()
+    init(apiService: APIService) {
+        self.apiService = apiService
+    }
     
     func getPopularMovies(completion: @escaping (() -> Void)) {
         apiService.getMoviesData(completion: {
@@ -33,8 +41,14 @@ final class MoviesViewModel {
         return apiService.popularMovies[index]
     }
     
-    func didTapMoviesCell(idMovie: Int) {
-        coordinator?.showDitailMovie()
+    func didTapMoviesCell() {
+        delegate?.showDitailMovie()
+        print("1 model")
+    }
+    
+    func didTapMenu() {
+        delegate?.showMenu()
+        print("2 model")
     }
     
     func getImageMovie(indexPath: IndexPath, completion: @escaping ((Data) -> Void)) {
@@ -44,6 +58,4 @@ final class MoviesViewModel {
             completion(data)
         }
     }
-    
 }
-

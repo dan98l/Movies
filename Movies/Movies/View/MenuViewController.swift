@@ -10,14 +10,21 @@ import UIKit
 
 class MenuViewController: UIViewController {
     
-    var viewModel = MenuViewModel()
+    // MARK: - Properties
+    var viewModel: MenuViewModel!
     private var menuTableView: UITableView!
+
+    static func instantiate() -> MenuViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: .main)
+        let controller = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+
+        return controller
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavigationController()
-        setBackgroundColor()
         setTableView()
     }
     
@@ -37,21 +44,19 @@ class MenuViewController: UIViewController {
         let displayHeight: CGFloat = self.view.frame.height
 
         menuTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
-        menuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
         menuTableView.dataSource = self
         menuTableView.delegate = self
         menuTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         menuTableView.backgroundColor = .darkGray
+        
+        menuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
+        
         self.view.addSubview(menuTableView)
     }
     
     private func setNavigationController() {
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.barStyle = .black
-    }
-    
-    private func setBackgroundColor() {
-        self.view.backgroundColor = .red
     }
 }
 
@@ -66,7 +71,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath as IndexPath)
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MenuCell", for: indexPath)
+        
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .darkGray
         cell.textLabel?.text = "Settings"

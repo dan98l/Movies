@@ -30,15 +30,7 @@ class MoviesViewController: UIViewController {
         super.viewDidLoad()
             
         setNavigationController()
-        setMenu()
         setupTableView()
-    }
-    
-    private func setMenu() {
-        menu = SideMenuNavigationController(rootViewController: MenuViewController())
-        menu?.leftSide = true
-        SideMenuManager.default.leftMenuNavigationController = menu
-        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
     }
 
     private func setNavigationController() {
@@ -54,7 +46,8 @@ class MoviesViewController: UIViewController {
     }
     
     @objc func didTapLeftBarButton() {
-        present(menu!, animated: true)
+        SideMenuManager.default.addPanGestureToPresent(toView: self.view)
+        viewModel.didTapMenu()
     }
     
     private func setupTableView() {
@@ -70,7 +63,7 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapMoviesCell(idMovie: indexPath.row)
+        viewModel.didTapMoviesCell()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
