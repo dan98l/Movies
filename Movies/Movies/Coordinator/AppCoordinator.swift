@@ -34,10 +34,11 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate {
         window.makeKeyAndVisible()
     }
     
-    func test() {
+    func showSettingsView() {
         let showSettingViewController = SettingsViewController.instantiate()
         showSettingViewController.viewModel = SettingsViewModel()
         navigationController.pushViewController(showSettingViewController, animated: true)
+        navigationController.dismiss(animated: true, completion: nil)
     }
     
     func showMenu() {

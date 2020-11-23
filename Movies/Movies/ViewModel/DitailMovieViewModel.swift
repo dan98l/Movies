@@ -9,5 +9,5 @@
 import Foundation
 
 final class DitailMovieViewModel {
-    var coordinator: AboutMovieCoordinator?
+    var coordinator: Coordinator?
 }

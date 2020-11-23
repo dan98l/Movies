@@ -31,8 +31,14 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     }
     
     func showDitailMovie() {
-        let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
-        aboutMovieCoordinator.start()
+        let ditailMovieViewController = DitailMovieViewController.instantiate
+               
+        let ditailMovieViewModel = DitailMovieViewModel()
+        ditailMovieViewModel.coordinator = self
+        ditailMovieViewController().viewModel = ditailMovieViewModel
+
+        navigationController.pushViewController(ditailMovieViewController(), animated: true)
+        
         print("1 coordinator")
     }
     
