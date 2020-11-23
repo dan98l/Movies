@@ -15,7 +15,6 @@ class DataManager {
     func saveDaraSourse(dataSourse: String) {
         UserDefaults.standard.set(dataSourse as String, forKey: "dataSourse")
         UserDefaults.standard.synchronize()
-        print("getDataSourse()", getDataSourse())
     }
     
     func getDataSourse() -> String {

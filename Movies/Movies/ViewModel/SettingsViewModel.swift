@@ -8,7 +8,14 @@
 
 import Foundation
 
+protocol SettingsViewModelDelegate: class {
+    func updateListMovies()
+}
+
 class SettingsViewModel {
+    
+    // MARK: - Properties
+    weak var delegate: SettingsViewModelDelegate?
     var dataMenager = DataManager()
     
     func changeDataSourse(indexSegmentedControl: Int) {
@@ -19,6 +26,7 @@ class SettingsViewModel {
             dataMenager.saveDaraSourse(dataSourse: "APIServiceKinopoisk")
         default: break
         }
+        delegate?.updateListMovies()
     }
     
     func setSegmentedControl() -> Int {
