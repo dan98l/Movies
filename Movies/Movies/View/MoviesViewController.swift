@@ -14,10 +14,10 @@ class MoviesViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet private weak var table: UITableView!
-    @IBOutlet private weak var searchMovies: UISearchBar!
     
     // MARK: - Properties
     var viewModel: MoviesViewModel!
+    let searchBar = UISearchBar()
     
     static func instantiate() -> MoviesViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -31,6 +31,14 @@ class MoviesViewController: UIViewController {
             
         setNavigationController()
         setupTableView()
+        createSearchBar()
+    }
+    
+    private func createSearchBar() {
+        searchBar.showsCancelButton = false
+        searchBar.placeholder = "Enter your search here"
+        searchBar.delegate = self
+        navigationItem.titleView = searchBar
     }
 
     private func setNavigationController() {
@@ -52,6 +60,7 @@ class MoviesViewController: UIViewController {
         viewModel.getPopularMovies(completion: {
             self.table.delegate = self
             self.table.dataSource = self
+            self.table.rowHeight = 245
             self.table.reloadData()
         })
     }
@@ -70,6 +79,7 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DitailMovieCell
+        cell.dataImage = nil
         let movie = viewModel.cellForRowAt(index: indexPath.row)
         viewModel.getImageMovie(indexPath: indexPath) { data in
             cell.dataImage = data
@@ -77,5 +87,18 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.selectionStyle = .none
         return cell
+    }
+    
+    private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 24
+    }
+}
+
+// MARK: - UISearchBarDelegate
+extension MoviesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.searchMovies(titleMovies: searchBar.text!) {
+             self.table.reloadData()
+        }
     }
 }

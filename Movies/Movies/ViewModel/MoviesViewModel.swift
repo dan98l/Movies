@@ -19,6 +19,7 @@ final class MoviesViewModel {
     var coordinator: Coordinator?
     var apiService: APIService!
     weak var delegate: MoviesViewModelDelegate?
+    var movies: [Movies]!
     
     init(apiService: APIService) {
         self.apiService = apiService
@@ -26,19 +27,20 @@ final class MoviesViewModel {
     
     func getPopularMovies(completion: @escaping (() -> Void)) {
         apiService.getMoviesData(completion: {
+            self.movies = self.apiService.popularMovies
             completion()
         })
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
-        if apiService.popularMovies.count != 0 {
-            return apiService.popularMovies.count
+        if let count = movies?.count {
+            return count
         }
         return 0
     }
     
     func cellForRowAt (index: Int) -> Movies {
-        return apiService.popularMovies[index]
+        return movies[index]
     }
     
     func  didTapMoviesCell(index: Int) {
@@ -50,10 +52,22 @@ final class MoviesViewModel {
     }
     
     func getImageMovie(indexPath: IndexPath, completion: @escaping ((Data) -> Void)) {
-        guard let posterPath = apiService.popularMovies[indexPath.row].posterPath else { return }
+        guard let posterPath = movies[indexPath.row].posterPath else { return }
         
         apiService.getImageMovie(posterPath: posterPath) { data in
             completion(data)
+        }
+    }
+    
+    func searchMovies(titleMovies: String, completion: @escaping (() -> ())) {
+        if titleMovies == "" {
+            self.movies = self.apiService.popularMovies
+            completion()
+        } else {
+            apiService.getSearchMovies(searchText: titleMovies) { result in
+                self.movies = result
+                completion()
+            }
         }
     }
 }

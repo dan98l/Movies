@@ -22,7 +22,7 @@ class SettingsViewController: UIViewController {
     static func instantiate() -> SettingsViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
         let controller = storyboard.instantiateViewController(withIdentifier: "SettingsViewController") as! SettingsViewController
-
+        
         return controller
     }
     

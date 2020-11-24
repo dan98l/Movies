@@ -13,10 +13,14 @@ class APIServiceTmbd: APIService {
     
     // MARK: - Properties
     private var urlString = "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page=1"
+    private var urlStringPartOne = "https://api.themoviedb.org/3/search/movie?api_key=afb20793e1a7d571016fad7cdd7d6075&query="
+    private var urlStringPartTwo = "&page=1"
     private var urlImageString = "https://image.tmdb.org/t/p/w500"
     
     var popularMoviesTmbd: [MovieTmbd] = []
+    var searchMoviesTmbd: [MovieTmbd] = []
     var popularMovies: [Movies] = []
+    var searchMovies: [Movies] = []
     
     func getMoviesData(completion: @escaping () -> Void) {
         AF.request(urlString).responseJSON { res in
@@ -46,4 +50,28 @@ class APIServiceTmbd: APIService {
             completion(data)
         }
     }
+    
+    func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
+        self.searchMovies = []
+        AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
+            guard let data = res.data else { return }
+            do {
+                let movies = try JSONDecoder().decode(MoviesTmbd.self, from: data)
+                self.searchMoviesTmbd = movies.results
+                for item in movies.results {
+                    let movie = Movies(idMovies: item.idMovies,
+                                       posterPath: item.posterPath,
+                                       title: item.title,
+                                       voteAverage: item.voteAverage,
+                                       overview: item.overview,
+                                       releaseDate: item.releaseDate)
+                    self.searchMovies.append(movie)
+                }
+                completion(self.searchMovies)
+            } catch {
+                
+            }
+        }
+    }
+       
 }

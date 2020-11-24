@@ -27,6 +27,15 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate, DitailMovie
         moviesViewModel.delegate = self
         showMoviesViewController.viewModel = moviesViewModel
         
+        switch checkDataSourse() {
+        case is APIServiceTmbd:
+            showMoviesViewController.searchBar.isHidden = false
+        case is APIServiceKinopoisk:
+            showMoviesViewController.searchBar.isHidden = true
+        default:
+            break
+        }
+        
         navigationController.setViewControllers([showMoviesViewController], animated: true)
     }
     
