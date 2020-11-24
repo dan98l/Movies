@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MenuViewModelDelegate: class {
-    func test()
+    func showSettingsView()
 }
 
 class MenuViewModel {
@@ -17,6 +17,6 @@ class MenuViewModel {
    weak var delegate: MenuViewModelDelegate?
     
     func didTapSettings() {
-        delegate?.test()
+        delegate?.showSettingsView()
     }
 }

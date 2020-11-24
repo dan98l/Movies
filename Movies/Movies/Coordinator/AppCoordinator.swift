@@ -13,7 +13,7 @@ protocol Coordinator {
     func start()
 }
 
-class AppCoordinator: Coordinator, MenuViewModelDelegate {
+class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDelegate {
     
     // MARK: - Properties
     private let navigationController = UINavigationController()
@@ -34,10 +34,14 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate {
         window.makeKeyAndVisible()
     }
     
-    func test() {
+    func showSettingsView() {
         let showSettingViewController = SettingsViewController.instantiate()
-        showSettingViewController.viewModel = SettingsViewModel()
+        let moviesViewModel = SettingsViewModel()
+        showSettingViewController.viewModel = moviesViewModel
+        moviesViewModel.delegate = self
+        
         navigationController.pushViewController(showSettingViewController, animated: true)
+        navigationController.dismiss(animated: true, completion: nil)
     }
     
     func showMenu() {
@@ -49,5 +53,9 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate {
         SideMenuManager.default.leftMenuNavigationController = menu
     
         navigationController.present(menu!, animated: true)
+    }
+    
+    func updateListMovies() {
+        start()
     }
 }

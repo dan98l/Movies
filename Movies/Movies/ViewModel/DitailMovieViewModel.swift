@@ -8,6 +8,18 @@
 
 import Foundation
 
-final class DitailMovieViewModel {
-    var coordinator: AboutMovieCoordinator?
+protocol DitailMovieViewModelDelegate: class {
+    
+}
+
+class DitailMovieViewModel {
+    weak var delegate: DitailMovieViewModelDelegate?
+    
+    var movie: Movies!
+    var dataImage: Data!
+    
+    init(movie: Movies) {
+        self.movie = movie
+    }
+
 }

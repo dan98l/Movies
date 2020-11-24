@@ -14,10 +14,10 @@ class MoviesViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet private weak var table: UITableView!
+    @IBOutlet private weak var searchMovies: UISearchBar!
     
     // MARK: - Properties
     var viewModel: MoviesViewModel!
-    var menu: SideMenuNavigationController?
     
     static func instantiate() -> MoviesViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -40,8 +40,6 @@ class MoviesViewController: UIViewController {
         
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        navigationItem.title = "Movies"
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: #selector(didTapLeftBarButton))
     }
     
@@ -63,7 +61,7 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapMoviesCell()
+        viewModel.didTapMoviesCell(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

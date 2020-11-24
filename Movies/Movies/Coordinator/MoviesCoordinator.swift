@@ -8,12 +8,13 @@
 
 import UIKit
 
-final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
+final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate, DitailMovieViewModelDelegate {
     
     // MARK: - Properties
     private var navigationController = UINavigationController()
     var parentCoordinator: AppCoordinator?
     var dataMenager = DataManager()
+    var moviesViewModel: MoviesViewModel!
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -21,8 +22,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func start() {
         let showMoviesViewController = MoviesViewController.instantiate()
-        
-        let moviesViewModel = MoviesViewModel(apiService: checkDataSourse())
+        self.moviesViewModel = MoviesViewModel(apiService: checkDataSourse())
         moviesViewModel.coordinator = self
         moviesViewModel.delegate = self
         showMoviesViewController.viewModel = moviesViewModel
@@ -30,15 +30,26 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         navigationController.setViewControllers([showMoviesViewController], animated: true)
     }
     
-    func showDitailMovie() {
-        let aboutMovieCoordinator = AboutMovieCoordinator(navigationController: navigationController)
-        aboutMovieCoordinator.start()
-        print("1 coordinator")
+    func showDitailMovie(index: Int) {
+        let ditailMovieViewController = DitailMovieViewController.instantiate()
+        
+        let movie = moviesViewModel.apiService.popularMovies[index]
+        
+        let ditailMovieViewModel = DitailMovieViewModel(movie: movie)
+        
+        ditailMovieViewModel.delegate = self
+        ditailMovieViewController.viewModel = ditailMovieViewModel
+        
+        guard let posterPath = movie.posterPath else { return }
+        
+        checkDataSourse().getImageMovie(posterPath: posterPath) { data in
+            ditailMovieViewModel.dataImage = data
+            self.navigationController.pushViewController(ditailMovieViewController, animated: true)
+        }
     }
     
     func showMenu() {
         parentCoordinator?.showMenu()
-        print("2 coordinator")
     }
     
     func checkDataSourse() -> APIService {
@@ -51,4 +62,5 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
            return APIServiceTmbd()
         }
     }
+    
 }

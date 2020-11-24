@@ -9,7 +9,7 @@
 import UIKit
 
 protocol MoviesViewModelDelegate: class {
-    func showDitailMovie()
+    func showDitailMovie(index: Int)
     func showMenu()
 }
 
@@ -41,14 +41,12 @@ final class MoviesViewModel {
         return apiService.popularMovies[index]
     }
     
-    func didTapMoviesCell() {
-        delegate?.showDitailMovie()
-        print("1 model")
+    func  didTapMoviesCell(index: Int) {
+        delegate?.showDitailMovie(index: index)
     }
     
     func didTapMenu() {
         delegate?.showMenu()
-        print("2 model")
     }
     
     func getImageMovie(indexPath: IndexPath, completion: @escaping ((Data) -> Void)) {
