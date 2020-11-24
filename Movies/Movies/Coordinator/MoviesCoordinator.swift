@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate, DitailMovieViewModelDelegate {
+final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     // MARK: - Properties
     private var navigationController = UINavigationController()
@@ -45,8 +45,6 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate, DitailMovie
         let movie = moviesViewModel.apiService.popularMovies[index]
         
         let ditailMovieViewModel = DitailMovieViewModel(movie: movie)
-        
-        ditailMovieViewModel.delegate = self
         ditailMovieViewController.viewModel = ditailMovieViewModel
         
         guard let posterPath = movie.posterPath else { return }

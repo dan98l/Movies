@@ -8,12 +8,7 @@
 
 import Foundation
 
-protocol DitailMovieViewModelDelegate: class {
-    
-}
-
 class DitailMovieViewModel {
-    weak var delegate: DitailMovieViewModelDelegate?
     
     var movie: Movies!
     var dataImage: Data!
