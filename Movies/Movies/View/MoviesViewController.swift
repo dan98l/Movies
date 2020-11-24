@@ -61,7 +61,7 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapMoviesCell()
+        viewModel.didTapMoviesCell(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -235,6 +235,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="yBO-uC-7ek"/>
                     </view>
+                    <connections>
+                        <outlet property="movieAverage" destination="n2b-9T-EN4" id="Bvc-tN-RXY"/>
+                        <outlet property="movieDate" destination="6WO-U5-XSK" id="MQM-1R-88g"/>
+                        <outlet property="movieImageView" destination="l9p-GG-RyL" id="0HS-cy-OiP"/>
+                        <outlet property="movieOverview" destination="L4L-Fi-8HE" id="we8-eu-hBR"/>
+                        <outlet property="movieTitle" destination="eh0-YX-bhG" id="pBk-qU-iXI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PlL-RG-LuF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
