@@ -79,11 +79,12 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DitailMovieCell
-        cell.dataImage = nil
         let movie = viewModel.cellForRowAt(index: indexPath.row)
-        viewModel.getImageMovie(indexPath: indexPath) { data in
-            cell.dataImage = data
-            cell.movie = movie
+        viewModel.getImageMovie(index: indexPath.row) { data, posterPath  in
+            if movie.posterPath == posterPath {
+                cell.dataImage = data as Data
+                cell.movie = movie
+            }
         }
         cell.selectionStyle = .none
         return cell

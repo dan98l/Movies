@@ -27,7 +27,7 @@ final class MoviesViewModel {
     
     func getPopularMovies(completion: @escaping (() -> Void)) {
         apiService.getMoviesData(completion: {
-            self.movies = self.apiService.popularMovies
+            self.movies = self.apiService.movies
             completion()
         })
     }
@@ -51,11 +51,11 @@ final class MoviesViewModel {
         delegate?.showMenu()
     }
     
-    func getImageMovie(indexPath: IndexPath, completion: @escaping ((Data) -> Void)) {
-        guard let posterPath = movies[indexPath.row].posterPath else { return }
+    func getImageMovie(index: Int, completion: @escaping ((Data, String) -> Void)) {
+        guard let posterPath = movies[index].posterPath else { return }
         
         apiService.getImageMovie(posterPath: posterPath) { data in
-            completion(data)
+            completion(data, posterPath)
         }
     }
     

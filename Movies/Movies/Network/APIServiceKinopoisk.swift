@@ -10,13 +10,14 @@ import Foundation
 import Alamofire
 
 class APIServiceKinopoisk: APIService {
+    
     // MARK: - Properties
     private var urlString = "https://api.kinopoisk.cloud/movies/all/page/666/token/66c34cdc9db6e03fc516ca92036617c0"
 
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
+    var movies: [Movies] = []
     var popularMovies: [Movies] = []
-    var searchMovies: [Movies] = []
     
     func getMoviesData(completion: @escaping () -> Void) {
        AF.request(urlString).responseJSON { res in
@@ -32,6 +33,7 @@ class APIServiceKinopoisk: APIService {
                                        voteAverage: item.voteAverage,
                                        overview: item.overview,
                                        releaseDate: item.releaseDate)
+                    self.movies.append(movie)
                     self.popularMovies.append(movie)
                 }
                 completion()

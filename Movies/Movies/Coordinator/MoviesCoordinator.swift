@@ -42,7 +42,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     func showDitailMovie(index: Int) {
         let ditailMovieViewController = DitailMovieViewController.instantiate()
         
-        let movie = moviesViewModel.apiService.popularMovies[index]
+        let movie = moviesViewModel.apiService.movies[index]
         
         let ditailMovieViewModel = DitailMovieViewModel(movie: movie)
         ditailMovieViewController.viewModel = ditailMovieViewModel

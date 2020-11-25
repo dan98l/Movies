@@ -20,7 +20,7 @@ class APIServiceTmbd: APIService {
     var popularMoviesTmbd: [MovieTmbd] = []
     var searchMoviesTmbd: [MovieTmbd] = []
     var popularMovies: [Movies] = []
-    var searchMovies: [Movies] = []
+    var movies: [Movies] = []
     
     func getMoviesData(completion: @escaping () -> Void) {
         AF.request(urlString).responseJSON { res in
@@ -35,6 +35,7 @@ class APIServiceTmbd: APIService {
                                        voteAverage: item.voteAverage,
                                        overview: item.overview,
                                        releaseDate: item.releaseDate)
+                    self.movies.append(movie)
                     self.popularMovies.append(movie)
                 }
                 completion()
@@ -52,7 +53,7 @@ class APIServiceTmbd: APIService {
     }
     
     func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
-        self.searchMovies = []
+        self.movies = []
         AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
             guard let data = res.data else { return }
             do {
@@ -65,9 +66,9 @@ class APIServiceTmbd: APIService {
                                        voteAverage: item.voteAverage,
                                        overview: item.overview,
                                        releaseDate: item.releaseDate)
-                    self.searchMovies.append(movie)
+                    self.movies.append(movie)
                 }
-                completion(self.searchMovies)
+                completion(self.movies)
             } catch {
                 
             }
