@@ -15,19 +15,28 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     var parentCoordinator: AppCoordinator?
     var dataMenager = DataManager()
     var moviesViewModel: MoviesViewModel!
+    var selectedDataSource: APIService!
+    var showMoviesViewController: MoviesViewController!
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.selectedDataSource = self.checkDataSource()
     }
     
     func start() {
-        let showMoviesViewController = MoviesViewController.instantiate()
-        self.moviesViewModel = MoviesViewModel(apiService: checkDataSourse())
-        moviesViewModel.coordinator = self
+        showMoviesViewController = MoviesViewController.instantiate()
+        moviesViewModel = MoviesViewModel(apiService: selectedDataSource)
+        
+        settingSearchBar()
+        
         moviesViewModel.delegate = self
         showMoviesViewController.viewModel = moviesViewModel
         
-        switch checkDataSourse() {
+        navigationController.setViewControllers([showMoviesViewController], animated: true)
+    }
+    
+    func settingSearchBar() {
+        switch selectedDataSource {
         case is APIServiceTmbd:
             showMoviesViewController.searchBar.isHidden = false
         case is APIServiceKinopoisk:
@@ -35,32 +44,37 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         default:
             break
         }
-        
-        navigationController.setViewControllers([showMoviesViewController], animated: true)
     }
     
-    func showDitailMovie(index: Int) {
-        let ditailMovieViewController = DitailMovieViewController.instantiate()
+    func showDetailMovie(index: Int) {
+        let detailMovieViewController = DetailMovieViewController.instantiate()
         
         let movie = moviesViewModel.apiService.movies[index]
         
-        let ditailMovieViewModel = DitailMovieViewModel(movie: movie)
-        ditailMovieViewController.viewModel = ditailMovieViewModel
+        let detailMovieViewModel = DetailMovieViewModel(movie: movie)
+        detailMovieViewController.viewModel = detailMovieViewModel
         
-        guard let posterPath = movie.posterPath else { return }
+        moviesViewModel.getImageMovie(index: index, completion: { image in
+            detailMovieViewModel.imageMovie = image
+            self.navigationController.pushViewController(detailMovieViewController, animated: true)
+        })
         
-        checkDataSourse().getImageMovie(posterPath: posterPath) { data in
-            ditailMovieViewModel.dataImage = data
-            self.navigationController.pushViewController(ditailMovieViewController, animated: true)
-        }
+    }
+    
+    func updateMovieList() {
+        selectedDataSource = self.checkDataSource()
+        moviesViewModel.apiService = selectedDataSource
+        settingSearchBar()
+        showMoviesViewController.setupTableView()
+        navigationController.setViewControllers([showMoviesViewController], animated: true)
     }
     
     func showMenu() {
         parentCoordinator?.showMenu()
     }
     
-    func checkDataSourse() -> APIService {
-        switch dataMenager.getDataSourse() {
+    func checkDataSource() -> APIService {
+        switch dataMenager.getDataSource() {
         case "APIServiceTmbd":
             return APIServiceTmbd()
         case "APIServiceKinopoisk":

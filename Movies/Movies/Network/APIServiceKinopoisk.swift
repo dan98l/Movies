@@ -12,15 +12,15 @@ import Alamofire
 class APIServiceKinopoisk: APIService {
     
     // MARK: - Properties
-    private var urlString = "https://api.kinopoisk.cloud/movies/all/page/666/token/66c34cdc9db6e03fc516ca92036617c0"
-
+    private var urlStringPartOne = "https://api.kinopoisk.cloud/movies/all/page/"
+    private var urlStringPartTwo = "/token/39fab127531b2ab09cd680ac73616834"
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
     var movies: [Movies] = []
     var popularMovies: [Movies] = []
     
-    func getMoviesData(completion: @escaping () -> Void) {
-       AF.request(urlString).responseJSON { res in
+    func getMoviesData(indexPage: Int, completion: @escaping () -> Void) {
+       AF.request(urlStringPartOne + String(indexPage) + urlStringPartTwo).responseJSON { res in
             guard let data = res.data else { return }
             do {
                 let movies = try JSONDecoder().decode(MoviesKinopoisk.self, from: data)
@@ -51,6 +51,7 @@ class APIServiceKinopoisk: APIService {
     }
     
     func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
+        // This API does not allow using this method
     }
 }
 

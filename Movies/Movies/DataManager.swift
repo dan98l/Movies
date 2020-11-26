@@ -10,14 +10,15 @@ import Foundation
 
 class DataManager {
     
-    let api = APIServiceKinopoisk()
-    
-    func saveDaraSourse(dataSourse: String) {
-        UserDefaults.standard.set(dataSourse as String, forKey: "dataSourse")
+    func saveDataSource(dataSource: String) {
+        UserDefaults.standard.set(dataSource as String, forKey: "dataSource")
         UserDefaults.standard.synchronize()
     }
     
-    func getDataSourse() -> String {
-        return  UserDefaults.standard.value(forKey: "dataSourse") as! String
+    func getDataSource() -> String? {
+        if let answer = UserDefaults.standard.value(forKey: "dataSource") {
+            return answer as? String
+        }
+        return nil
     }
 }

@@ -14,6 +14,7 @@ class MoviesViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet private weak var table: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     var viewModel: MoviesViewModel!
@@ -56,8 +57,8 @@ class MoviesViewController: UIViewController {
         viewModel.didTapMenu()
     }
     
-    private func setupTableView() {
-        viewModel.getPopularMovies(completion: {
+    func setupTableView() {
+        viewModel.getPopularMovies(indexPage: viewModel.loadMoviesStatus.page, completion: {
             self.table.delegate = self
             self.table.dataSource = self
             self.table.rowHeight = 245
@@ -78,16 +79,37 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DitailMovieCell
-        let movie = viewModel.cellForRowAt(index: indexPath.row)
-        viewModel.getImageMovie(index: indexPath.row) { data, posterPath  in
-            if movie.posterPath == posterPath {
-                cell.dataImage = data as Data
-                cell.movie = movie
-            }
-        }
+        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         cell.selectionStyle = .none
+
+        viewModel.getImageMovie(index: indexPath.row) { image  in
+            cell.imageMovie = image
+            cell.title = self.viewModel.getTitle(index: indexPath.row)
+            cell.average = self.viewModel.getAverage(index: indexPath.row)
+            cell.overview = self.viewModel.getOverview(index: indexPath.row)
+        }
+        
         return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let currentOffset = scrollView.contentOffset.y
+        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
+        let deltaOffset = maximumOffset - currentOffset
+        
+        if deltaOffset <= 0 {
+            self.activityIndicator.startAnimating()
+            loadMoreMovies()
+        }
+    }
+    
+    func loadMoreMovies() {
+        if viewModel.loadMoviesStatus.loading {
+            viewModel.getPopularMovies(indexPage: viewModel.loadMoviesStatus.page, completion: {
+                self.activityIndicator.stopAnimating()
+                self.table.reloadData()
+            })
+        }
     }
 }
 

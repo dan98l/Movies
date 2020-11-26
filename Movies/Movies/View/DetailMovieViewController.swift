@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DitailMovieViewController: UIViewController {
+class DetailMovieViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet private weak var movieImageView: UIImageView!
@@ -18,12 +18,12 @@ class DitailMovieViewController: UIViewController {
     @IBOutlet private weak var movieTitle: UILabel!
     
     // MARK: - Properties
-    var viewModel: DitailMovieViewModel!
+    var viewModel: DetailMovieViewModel!
     var movie: Movies!
     
-    static func instantiate() -> DitailMovieViewController {
+    static func instantiate() -> DetailMovieViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
-        let controller = storyboard.instantiateViewController(withIdentifier: "DitailMovieViewController") as! DitailMovieViewController
+        let controller = storyboard.instantiateViewController(withIdentifier: "DetailMovieViewController") as! DetailMovieViewController
 
         return controller
     }
@@ -47,7 +47,7 @@ class DitailMovieViewController: UIViewController {
             self.movieOverview.text = overview
         }
         
-        if let image = UIImage(data: viewModel.dataImage) {
+        if let image = viewModel.imageMovie {
             self.movieImageView.image = image
         }
     }

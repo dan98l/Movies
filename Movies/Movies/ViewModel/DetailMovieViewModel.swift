@@ -6,12 +6,12 @@
 //  Copyright © 2020 Daniil G. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-class DitailMovieViewModel {
+class DetailMovieViewModel {
     
     var movie: Movies!
-    var dataImage: Data!
+    var imageMovie: UIImage?
     
     init(movie: Movies) {
         self.movie = movie

@@ -9,26 +9,29 @@
 import UIKit
 
 protocol MoviesViewModelDelegate: class {
-    func showDitailMovie(index: Int)
+    func showDetailMovie(index: Int)
     func showMenu()
 }
 
 final class MoviesViewModel {
     
     // MARK: - Properties
-    var coordinator: Coordinator?
     var apiService: APIService!
     weak var delegate: MoviesViewModelDelegate?
     var movies: [Movies]!
+    var loadMoviesStatus = (loading: true, page: 1)
     
     init(apiService: APIService) {
         self.apiService = apiService
     }
     
-    func getPopularMovies(completion: @escaping (() -> Void)) {
-        apiService.getMoviesData(completion: {
+    func getPopularMovies(indexPage: Int, completion: @escaping (() -> Void)) {
+        loadMoviesStatus.loading = false
+        loadMoviesStatus.page += 1
+        apiService.getMoviesData(indexPage: indexPage, completion: {
             self.movies = self.apiService.movies
             completion()
+            self.loadMoviesStatus.loading = true
         })
     }
     
@@ -44,30 +47,57 @@ final class MoviesViewModel {
     }
     
     func  didTapMoviesCell(index: Int) {
-        delegate?.showDitailMovie(index: index)
+        delegate?.showDetailMovie(index: index)
     }
     
     func didTapMenu() {
         delegate?.showMenu()
     }
     
-    func getImageMovie(index: Int, completion: @escaping ((Data, String) -> Void)) {
+    func getImageMovie(index: Int, completion: @escaping ((UIImage) -> Void)) {
         guard let posterPath = movies[index].posterPath else { return }
         
         apiService.getImageMovie(posterPath: posterPath) { data in
-            completion(data, posterPath)
+            if let image = UIImage(data: data) {
+                completion(image)
+            } else {
+                print("ERROR, NO IMAGE!")
+            }
         }
     }
     
-    func searchMovies(titleMovies: String, completion: @escaping (() -> ())) {
+    func searchMovies(titleMovies: String, completion: @escaping (() -> Void)) {
         if titleMovies == "" {
+            loadMoviesStatus.loading = true
             self.movies = self.apiService.popularMovies
             completion()
         } else {
+            loadMoviesStatus.loading = false
             apiService.getSearchMovies(searchText: titleMovies) { result in
                 self.movies = result
                 completion()
             }
         }
+    }
+    
+    func getTitle(index: Int) -> String? {
+        if let title = movies[index].title {
+            return title
+        }
+        return nil
+    }
+    
+    func getAverage(index: Int) -> Double? {
+        if let average = movies[index].voteAverage {
+            return average
+        }
+        return nil
+    }
+    
+    func getOverview(index: Int) -> String? {
+        if let overview = movies[index].overview {
+            return overview
+        }
+        return nil
     }
 }

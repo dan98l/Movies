@@ -12,7 +12,7 @@ import Alamofire
 class APIServiceTmbd: APIService {
     
     // MARK: - Properties
-    private var urlString = "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page=1"
+    private var urlString = "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page="
     private var urlStringPartOne = "https://api.themoviedb.org/3/search/movie?api_key=afb20793e1a7d571016fad7cdd7d6075&query="
     private var urlStringPartTwo = "&page=1"
     private var urlImageString = "https://image.tmdb.org/t/p/w500"
@@ -22,8 +22,8 @@ class APIServiceTmbd: APIService {
     var popularMovies: [Movies] = []
     var movies: [Movies] = []
     
-    func getMoviesData(completion: @escaping () -> Void) {
-        AF.request(urlString).responseJSON { res in
+    func getMoviesData(indexPage: Int, completion: @escaping () -> Void) {
+        AF.request(urlString + String(indexPage)).responseJSON { res in
             guard let data = res.data else { return }
             do {
                 let movies = try JSONDecoder().decode(MoviesTmbd.self, from: data)
@@ -54,6 +54,7 @@ class APIServiceTmbd: APIService {
     
     func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
         self.movies = []
+        print(urlStringPartOne+searchText+urlStringPartTwo)
         AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
             guard let data = res.data else { return }
             do {

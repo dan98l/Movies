@@ -11,10 +11,10 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     // MARK: - IBOutlets
-    @IBAction func didChangeSegmentDataSours(_ sender: UISegmentedControl) {
-        viewModel.changeDataSourse(indexSegmentedControl: sender.selectedSegmentIndex)
+    @IBAction func didChangeSegmentDataSource(_ sender: UISegmentedControl) {
+        viewModel.changeDataSource(indexSegmentedControl: sender.selectedSegmentIndex)
     }
-    @IBOutlet weak var segmentControlDataSours: UISegmentedControl!
+    @IBOutlet weak var segmentControlDataSource: UISegmentedControl!
     
     // MARK: - Properties
     var viewModel: SettingsViewModel!
@@ -28,6 +28,6 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.segmentControlDataSours.selectedSegmentIndex = viewModel.setSegmentedControl()
+        self.segmentControlDataSource.selectedSegmentIndex = viewModel.setSegmentedControl()
     }
 }

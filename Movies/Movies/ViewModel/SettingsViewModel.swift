@@ -10,6 +10,8 @@ import Foundation
 
 protocol SettingsViewModelDelegate: class {
     func updateListMovies()
+    func updateDataSource(index: Int)
+    func getIndexForSegmentedControl() -> Int
 }
 
 class SettingsViewModel {
@@ -18,25 +20,12 @@ class SettingsViewModel {
     weak var delegate: SettingsViewModelDelegate?
     var dataMenager = DataManager()
     
-    func changeDataSourse(indexSegmentedControl: Int) {
-        switch indexSegmentedControl {
-        case 0:
-            dataMenager.saveDaraSourse(dataSourse: "APIServiceTmbd")
-        case 1:
-            dataMenager.saveDaraSourse(dataSourse: "APIServiceKinopoisk")
-        default: break
-        }
+    func changeDataSource(indexSegmentedControl: Int) {
+        delegate?.updateDataSource(index: indexSegmentedControl)
         delegate?.updateListMovies()
     }
     
     func setSegmentedControl() -> Int {
-        let apiName = dataMenager.getDataSourse()
-        switch apiName {
-        case "APIServiceTmbd":
-            return 0
-        case "APIServiceKinopoisk":
-            return 1
-        default: return 0
-        }
+        return delegate!.getIndexForSegmentedControl()
     }
 }

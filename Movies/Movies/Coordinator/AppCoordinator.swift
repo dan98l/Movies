@@ -14,12 +14,14 @@ protocol Coordinator {
 }
 
 class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDelegate {
-    
+  
     // MARK: - Properties
     private let navigationController = UINavigationController()
     private let window: UIWindow
     private var menu: SideMenuNavigationController?
     private let menuViewModel = MenuViewModel()
+    var moviesCoordinator: MoviesCoordinator!
+    var dataMenager = DataManager()
     
     init(window: UIWindow) {
         self.window = window
@@ -27,9 +29,9 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     }
     
     func start() {
-        let moviesCoordinator = MoviesCoordinator(navigationController: navigationController)
-        moviesCoordinator.start()
-        moviesCoordinator.parentCoordinator = self
+        self.moviesCoordinator = MoviesCoordinator(navigationController: navigationController)
+        self.moviesCoordinator.start()
+        self.moviesCoordinator.parentCoordinator = self
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
@@ -56,6 +58,27 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     }
     
     func updateListMovies() {
-        start()
+        self.moviesCoordinator.updateMovieList()
     }
+    
+    func updateDataSource(index: Int) {
+        switch index {
+        case 0:
+            dataMenager.saveDataSource(dataSource: "APIServiceTmbd")
+        case 1:
+            dataMenager.saveDataSource(dataSource: "APIServiceKinopoisk")
+        default: break
+        }
+    }
+    
+    func getIndexForSegmentedControl() -> Int {
+        let apiName = dataMenager.getDataSource()
+        switch apiName {
+        case "APIServiceTmbd":
+             return 0
+        case "APIServiceKinopoisk":
+             return 1
+        default: return 0
+        }
+      }
 }
