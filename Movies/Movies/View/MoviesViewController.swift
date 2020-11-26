@@ -58,7 +58,7 @@ class MoviesViewController: UIViewController {
     }
     
     func setupTableView() {
-        viewModel.getPopularMovies(indexPage: viewModel.loadMoviesStatus.page, completion: {
+        viewModel.getPopularMovies(indexPage: viewModel.statusOfLoadMovie.page, completion: {
             self.table.delegate = self
             self.table.dataSource = self
             self.table.rowHeight = 245
@@ -81,12 +81,13 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         cell.selectionStyle = .none
-        cell.imageMovie = nil
-        cell.title = self.viewModel.getTitle(index: indexPath.row)
-        cell.average = self.viewModel.getAverage(index: indexPath.row)
-        cell.overview = self.viewModel.getOverview(index: indexPath.row)
-        viewModel.getImageMovie(index: indexPath.row) { image  in
-            cell.imageMovie = image
+        cell.imageOfMovie = nil
+        cell.titleOfMovie = self.viewModel.getTitle(index: indexPath.row)
+        cell.averageOfMovie = self.viewModel.getAverage(index: indexPath.row)
+        cell.overviewOfMovie = self.viewModel.getOverview(index: indexPath.row)
+        
+        viewModel.getImageOfMovie(index: indexPath.row) { image  in
+            cell.imageOfMovie = image
         }
         
         return cell
@@ -104,8 +105,8 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func loadMoreMovies() {
-        if viewModel.loadMoviesStatus.loading {
-            viewModel.getPopularMovies(indexPage: viewModel.loadMoviesStatus.page, completion: {
+        if viewModel.statusOfLoadMovie.loading {
+            viewModel.getPopularMovies(indexPage: viewModel.statusOfLoadMovie.page, completion: {
                 self.activityIndicator.stopAnimating()
                 self.table.reloadData()
             })

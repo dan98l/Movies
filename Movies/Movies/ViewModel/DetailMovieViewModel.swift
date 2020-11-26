@@ -16,5 +16,4 @@ class DetailMovieViewModel {
     init(movie: Movies) {
         self.movie = movie
     }
-
 }

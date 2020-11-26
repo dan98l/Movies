@@ -43,14 +43,14 @@ class APIServiceKinopoisk: APIService {
         }
     }
     
-    func getImageMovie(posterPath: String, completion: @escaping (Data) -> Void) {
+    func getMovieImages(posterPath: String, completion: @escaping (Data) -> Void) {
         AF.request("https:" + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)
         }
     }
     
-    func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
+    func getMoviesSearch(searchText: String, completion: @escaping ([Movies]) -> Void) {
         // This API does not allow using this method
     }
 }

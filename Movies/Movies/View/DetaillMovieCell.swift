@@ -16,18 +16,18 @@ class DetaillMovieCell: UITableViewCell {
     @IBOutlet private weak var movieAverage: UILabel!
     @IBOutlet private weak var movieOverview: UILabel!
     // MARK: - Properties
-    var imageMovie: UIImage? {
+    var imageOfMovie: UIImage? {
         didSet {
-            if let image = imageMovie {
+            if let image = imageOfMovie {
                 movieImageView.image = image
                 movieImageViewForBluer.image = image
             }
         }
     }
     
-    var title: String? {
+    var titleOfMovie: String? {
         didSet {
-            if let title = title {
+            if let title = titleOfMovie {
                 movieTitle.text = title
             } else {
                 movieTitle.text = "No title"
@@ -35,17 +35,17 @@ class DetaillMovieCell: UITableViewCell {
         }
     }
     
-    var average: Double? {
+    var averageOfMovie: Double? {
         didSet {
-            if let average = average {
+            if let average = averageOfMovie {
                 movieAverage.text = String(format: "%.1f", average)
             }
         }
     }
     
-    var overview: String? {
+    var overviewOfMovie: String? {
         didSet {
-            if let overview = overview {
+            if let overview = overviewOfMovie {
                 movieOverview.text = overview
             } else {
                 movieOverview.text  = "No description"

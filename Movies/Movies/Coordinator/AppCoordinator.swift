@@ -36,7 +36,7 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
         window.makeKeyAndVisible()
     }
     
-    func showSettingsView() {
+    func showSettingsOfView() {
         let showSettingViewController = SettingsViewController.instantiate()
         let moviesViewModel = SettingsViewModel()
         showSettingViewController.viewModel = moviesViewModel

@@ -45,14 +45,14 @@ class APIServiceTmbd: APIService {
         }
     }
     
-    func getImageMovie(posterPath: String, completion: @escaping (Data) -> Void) {
+    func getMovieImages(posterPath: String, completion: @escaping (Data) -> Void) {
         AF.request(urlImageString + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)
         }
     }
     
-    func getSearchMovies(searchText: String, completion: @escaping ([Movies]) -> Void) {
+    func getMoviesSearch(searchText: String, completion: @escaping ([Movies]) -> Void) {
         self.movies = []
         print(urlStringPartOne+searchText+urlStringPartTwo)
         AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
