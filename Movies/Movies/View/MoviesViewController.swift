@@ -81,12 +81,12 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         cell.selectionStyle = .none
-
+        cell.imageMovie = nil
+        cell.title = self.viewModel.getTitle(index: indexPath.row)
+        cell.average = self.viewModel.getAverage(index: indexPath.row)
+        cell.overview = self.viewModel.getOverview(index: indexPath.row)
         viewModel.getImageMovie(index: indexPath.row) { image  in
             cell.imageMovie = image
-            cell.title = self.viewModel.getTitle(index: indexPath.row)
-            cell.average = self.viewModel.getAverage(index: indexPath.row)
-            cell.overview = self.viewModel.getOverview(index: indexPath.row)
         }
         
         return cell
