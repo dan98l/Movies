@@ -17,14 +17,11 @@ class DetaillMovieCell: UITableViewCell {
     @IBOutlet private weak var movieOverview: UILabel!
     // MARK: - Properties
     
-    var posterPath1: String?
-    var posterPath2: String?
-    
     var imageOfMovie: UIImage? {
         didSet {
-            if posterPath1 == posterPath2 && posterPath2 != nil {
-                movieImageView.image = imageOfMovie
-                movieImageViewForBluer.image = imageOfMovie
+            if let image = imageOfMovie {
+                movieImageView.image = image
+                movieImageViewForBluer.image = image
             } else {
                 movieImageView.image = UIImage(named: "noimage")
                 movieImageViewForBluer.image = nil
