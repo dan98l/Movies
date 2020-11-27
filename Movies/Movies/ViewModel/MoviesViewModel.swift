@@ -54,16 +54,18 @@ final class MoviesViewModel {
         delegate?.showMenu()
     }
     
-    func getImageOfMovie(index: Int, completion: @escaping ((UIImage, String) -> Void)) {
-        guard let posterPath = movies[index].posterPath else { return }
-        
-        apiService.getMovieImages(posterPath: posterPath) { data in
-            if let image = UIImage(data: data) {
-                completion(image, posterPath)
-            } else {
-                print("ERROR, NO IMAGE!")
+    func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?) -> Void)) {
+
+        if let posterPath = movies[index].posterPath {
+            apiService.getMovieImages(posterPath: posterPath) { data in
+                if let image = UIImage(data: data) {
+                    completion(image, posterPath)
+                } else {
+                    print("ERROR, NO IMAGE!")
+                }
             }
         }
+        completion(nil, nil)
     }
     
     func searchMovies(titleMovies: String, completion: @escaping (() -> Void)) {

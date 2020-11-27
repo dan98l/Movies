@@ -22,14 +22,12 @@ class DetaillMovieCell: UITableViewCell {
     
     var imageOfMovie: UIImage? {
         didSet {
-            if let image = imageOfMovie {
-                if posterPath1 == posterPath2 {
-                    movieImageView.image = image
-                    movieImageViewForBluer.image = image
-                } else {
-                    movieImageView.image = nil
-                    movieImageViewForBluer.image = nil
-                }
+            if posterPath1 == posterPath2 && posterPath2 != nil {
+                movieImageView.image = imageOfMovie
+                movieImageViewForBluer.image = imageOfMovie
+            } else {
+                movieImageView.image = UIImage(named: "noimage")
+                movieImageViewForBluer.image = nil
             }
         }
     }
