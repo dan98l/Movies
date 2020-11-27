@@ -54,7 +54,6 @@ class APIServiceTmbd: APIService {
     
     func getMoviesSearch(searchText: String, completion: @escaping ([Movies]) -> Void) {
         self.movies = []
-        print(urlStringPartOne+searchText+urlStringPartTwo)
         AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
             guard let data = res.data else { return }
             do {

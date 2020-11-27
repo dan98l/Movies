@@ -16,4 +16,32 @@ class DetailMovieViewModel {
     init(movie: Movies) {
         self.movie = movie
     }
+    
+    func getTitle() -> String? {
+        if let title = movie.title {
+            return title
+        }
+        return nil
+    }
+    
+    func getAverage() -> Double? {
+        if let average = movie.voteAverage {
+            return average
+        }
+        return nil
+    }
+    
+    func getOverview() -> String? {
+        if let overview = movie.overview {
+            return overview
+        }
+        return nil
+    }
+    
+    func getDate() -> String? {
+        if let date = movie.releaseDate {
+            return date
+        }
+        return nil
+    }
 }

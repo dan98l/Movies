@@ -19,6 +19,7 @@ class MoviesViewController: UIViewController {
     // MARK: - Properties
     var viewModel: MoviesViewModel!
     let searchBar = UISearchBar()
+    var test: String = ""
     
     static func instantiate() -> MoviesViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -81,15 +82,16 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         cell.selectionStyle = .none
-        cell.imageOfMovie = nil
-        cell.titleOfMovie = self.viewModel.getTitle(index: indexPath.row)
+        
         cell.averageOfMovie = self.viewModel.getAverage(index: indexPath.row)
         cell.overviewOfMovie = self.viewModel.getOverview(index: indexPath.row)
+        cell.titleOfMovie = self.viewModel.getTitle(index: indexPath.row)
+        cell.posterPath1 = self.viewModel.getPosterPath(index: indexPath.row)
         
-        viewModel.getImageOfMovie(index: indexPath.row) { image  in
+        viewModel.getImageOfMovie(index: indexPath.row) { image, posterPath in
+            cell.posterPath2 = posterPath
             cell.imageOfMovie = image
         }
-        
         return cell
     }
     

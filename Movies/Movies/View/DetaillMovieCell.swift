@@ -16,11 +16,20 @@ class DetaillMovieCell: UITableViewCell {
     @IBOutlet private weak var movieAverage: UILabel!
     @IBOutlet private weak var movieOverview: UILabel!
     // MARK: - Properties
+    
+    var posterPath1: String?
+    var posterPath2: String?
+    
     var imageOfMovie: UIImage? {
         didSet {
             if let image = imageOfMovie {
-                movieImageView.image = image
-                movieImageViewForBluer.image = image
+                if posterPath1 == posterPath2 {
+                    movieImageView.image = image
+                    movieImageViewForBluer.image = image
+                } else {
+                    movieImageView.image = nil
+                    movieImageViewForBluer.image = nil
+                }
             }
         }
     }

@@ -19,7 +19,6 @@ class DetailMovieViewController: UIViewController {
     
     // MARK: - Properties
     var viewModel: DetailMovieViewModel!
-    var movie: Movies!
     
     static func instantiate() -> DetailMovieViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -31,21 +30,13 @@ class DetailMovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let title = viewModel.movie.title {
-            self.movieTitle.text = title
-        }
+        movieTitle.text = viewModel.getTitle()
         
-        if let releaseDate = viewModel.movie.releaseDate {
-            self.movieDate.text = releaseDate
-        }
+        movieDate.text = viewModel.getDate()
         
-        if let average = viewModel.movie.voteAverage {
-            self.movieAverage.text = String(average)
-        }
+        movieAverage.text = String(format: "%.1f", viewModel.getAverage()!)
         
-        if let overview = viewModel.movie.overview {
-            self.movieOverview.text = overview
-        }
+        movieOverview.text = viewModel.getOverview()
         
         if let image = viewModel.imageMovie {
             self.movieImageView.image = image

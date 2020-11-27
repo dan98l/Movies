@@ -54,12 +54,12 @@ final class MoviesViewModel {
         delegate?.showMenu()
     }
     
-    func getImageOfMovie(index: Int, completion: @escaping ((UIImage) -> Void)) {
+    func getImageOfMovie(index: Int, completion: @escaping ((UIImage, String) -> Void)) {
         guard let posterPath = movies[index].posterPath else { return }
         
         apiService.getMovieImages(posterPath: posterPath) { data in
             if let image = UIImage(data: data) {
-                completion(image)
+                completion(image, posterPath)
             } else {
                 print("ERROR, NO IMAGE!")
             }
@@ -97,6 +97,13 @@ final class MoviesViewModel {
     func getOverview(index: Int) -> String? {
         if let overview = movies[index].overview {
             return overview
+        }
+        return nil
+    }
+    
+    func getPosterPath(index: Int) -> String? {
+        if let posterPath = movies[index].posterPath {
+            return posterPath
         }
         return nil
     }
