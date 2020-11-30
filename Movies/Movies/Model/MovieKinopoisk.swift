@@ -17,7 +17,7 @@ struct MoviesKinopoisk: Decodable {
 }
 
 struct MovieKinopoisk: Decodable {
-    let idMovies: String?
+    let idMovies: Int?
     let posterPath: String?
     let title: String?
     let voteAverage: Double?
@@ -37,7 +37,7 @@ struct MovieKinopoisk: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         self.posterPath = try? container.decode(String.self, forKey: .posterPath)
-        self.idMovies = try? container.decode(String.self, forKey: .idMovies)
+        self.idMovies = try? container.decode(Int.self, forKey: .idMovies)
         self.title = try? container.decode(String.self, forKey: .title)
         self.overview = try? container.decode(String.self, forKey: .overview)
         self.releaseDate = try? container.decode(String.self, forKey: .releaseDate)

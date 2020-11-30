@@ -55,7 +55,6 @@ final class MoviesViewModel {
     }
     
     func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
-
         if let posterPath = movies[index].posterPath {
             apiService.getMovieImages(posterPath: posterPath) { data in
                 if let image = UIImage(data: data) {

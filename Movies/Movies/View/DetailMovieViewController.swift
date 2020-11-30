@@ -38,8 +38,12 @@ class DetailMovieViewController: UIViewController {
         
         movieOverview.text = viewModel.getOverview()
         
-        if let image = viewModel.imageMovie {
-            self.movieImageView.image = image
+        viewModel.getImageOfMovie { image in
+            if let image = image {
+                self.movieImageView.image = image
+            } else {
+                self.movieImageView.image = UIImage(named: "noimage")
+            }
         }
     }
 }

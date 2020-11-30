@@ -16,7 +16,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     var dataMenager = DataManager()
     var moviesViewModel: MoviesViewModel!
     var selectedDataSource: APIService!
-    var showMoviesViewController: MoviesViewController!
+    var moviesViewController: MoviesViewController!
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -24,23 +24,23 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     }
     
     func start() {
-        showMoviesViewController = MoviesViewController.instantiate()
+        moviesViewController = MoviesViewController.instantiate()
         moviesViewModel = MoviesViewModel(apiService: selectedDataSource)
         
         settingSearchBar()
         
         moviesViewModel.delegate = self
-        showMoviesViewController.viewModel = moviesViewModel
+        moviesViewController.viewModel = moviesViewModel
         
-        navigationController.setViewControllers([showMoviesViewController], animated: true)
+        navigationController.setViewControllers([moviesViewController], animated: true)
     }
     
     func settingSearchBar() {
         switch selectedDataSource {
         case is APIServiceTmbd:
-            showMoviesViewController.searchBar.isHidden = false
+            moviesViewController.searchBar.isHidden = false
         case is APIServiceKinopoisk:
-            showMoviesViewController.searchBar.isHidden = true
+            moviesViewController.searchBar.isHidden = true
         default:
             break
         }
@@ -48,15 +48,9 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func showDetailMovie(index: Int) {
         let detailMovieViewController = DetailMovieViewController.instantiate()
+        let detailMovieViewModel = DetailMovieViewModel(movie: selectedDataSource.movies[index], apiService: selectedDataSource)
         
-        let movie = moviesViewModel.apiService.movies[index]
-        
-        let detailMovieViewModel = DetailMovieViewModel(movie: movie)
         detailMovieViewController.viewModel = detailMovieViewModel
-        
-//        moviesViewModel.getImageOfMovie(index: index, completion: { image in
-//            detailMovieViewModel.imageMovie = image
-//        })
         
         self.navigationController.pushViewController(detailMovieViewController, animated: true)
     }
@@ -64,9 +58,10 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     func updateMovieList() {
         selectedDataSource = self.checkDataSource()
         moviesViewModel.apiService = selectedDataSource
+        moviesViewModel.statusOfLoadMovie.page = 1
         settingSearchBar()
-        showMoviesViewController.setupTableView()
-        navigationController.setViewControllers([showMoviesViewController], animated: true)
+        moviesViewController.setupTableView()
+        navigationController.setViewControllers([moviesViewController], animated: true)
     }
     
     func showMenu() {

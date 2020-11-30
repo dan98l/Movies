@@ -13,7 +13,7 @@ class APIServiceKinopoisk: APIService {
     
     // MARK: - Properties
     private var urlStringPartOne = "https://api.kinopoisk.cloud/movies/all/page/"
-    private var urlStringPartTwo = "/token/39fab127531b2ab09cd680ac73616834"
+    private var urlStringPartTwo = "/token/66c34cdc9db6e03fc516ca92036617c0"
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
     var movies: [Movies] = []
@@ -27,7 +27,7 @@ class APIServiceKinopoisk: APIService {
                 self.popularMoviesKinopoisk = movies.results
                 
                 for item in movies.results {
-                    let movie = Movies(idMovies: Int(item.idMovies!),
+                    let movie = Movies(idMovies: item.idMovies,
                                        posterPath: item.posterPath,
                                        title: item.title,
                                        voteAverage: item.voteAverage,

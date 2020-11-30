@@ -19,7 +19,6 @@ class MoviesViewController: UIViewController {
     // MARK: - Properties
     var viewModel: MoviesViewModel!
     let searchBar = UISearchBar()
-    var test: String = ""
     
     static func instantiate() -> MoviesViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -106,6 +105,7 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func loadMoreMovies() {
+        print("viewModel.statusOfLoadMovie.page", viewModel.statusOfLoadMovie.page)
         if viewModel.statusOfLoadMovie.loading {
             viewModel.getPopularMovies(indexPage: viewModel.statusOfLoadMovie.page, completion: {
                 self.activityIndicator.stopAnimating()

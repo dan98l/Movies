@@ -11,18 +11,11 @@ import UIKit
 class DetailMovieViewModel {
     
     var movie: Movies!
-    var imageMovie: UIImage? {
-        didSet {
-            if let image = imageMovie {
-                imageMovie = image
-            } else {
-                imageMovie = UIImage(named: "noimage")
-            }
-        }
-    }
+    var apiService: APIService!
     
-    init(movie: Movies) {
+    init(movie: Movies, apiService: APIService) {
         self.movie = movie
+        self.apiService = apiService
     }
     
     func getTitle() -> String? {
@@ -51,5 +44,14 @@ class DetailMovieViewModel {
             return date
         }
         return nil
+    }
+    
+    func getImageOfMovie(completion: @escaping ((UIImage?) -> Void)) {
+        if let posterPath = movie.posterPath {
+            apiService.getMovieImages(posterPath: posterPath) { data in
+                completion(UIImage(data: data))
+            }
+        }
+        completion(nil)
     }
 }
