@@ -12,12 +12,14 @@ class SettingsViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBAction func didChangeSegmentDataSource(_ sender: UISegmentedControl) {
-        viewModel.changeDataSource(indexSegmentedControl: sender.selectedSegmentIndex)
+        if let model = viewModel {
+            model.changeDataSource(indexSegmentedControl: sender.selectedSegmentIndex)
+        }
     }
     @IBOutlet weak var segmentControlDataSource: UISegmentedControl!
     
     // MARK: - Properties
-    var viewModel: SettingsViewModel!
+    var viewModel: SettingsViewModel?
     
     static func instantiate() -> SettingsViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -28,6 +30,8 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.segmentControlDataSource.selectedSegmentIndex = viewModel.setSegmentedControl()
+        if let model = viewModel {
+            self.segmentControlDataSource.selectedSegmentIndex = model.setSegmentedControl()
+        }
     }
 }

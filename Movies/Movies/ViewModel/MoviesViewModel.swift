@@ -16,10 +16,10 @@ protocol MoviesViewModelDelegate: class {
 final class MoviesViewModel {
     
     // MARK: - Properties
-    var apiService: APIService!
+    var apiService: APIService?
     
     weak var delegate: MoviesViewModelDelegate?
-    var movies: [Movies]!
+    var movies: [Movies]?
     var statusOfLoadMovie = (loading: true, page: 1)
     
     var urlStringForCheckImage = ""
@@ -31,11 +31,14 @@ final class MoviesViewModel {
     func getPopularMovies(indexPage: Int, completion: @escaping (() -> Void)) {
         statusOfLoadMovie.loading = false
         statusOfLoadMovie.page += 1
-        apiService.getMoviesData(indexPage: indexPage, completion: {
-            self.movies = self.apiService.movies
-            completion()
-            self.statusOfLoadMovie.loading = true
-        })
+        
+        if let api = apiService {
+            api.getMoviesData(indexPage: indexPage, completion: {
+                self.movies = api.movies
+                completion()
+                self.statusOfLoadMovie.loading = true
+            })
+        }
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
@@ -45,8 +48,11 @@ final class MoviesViewModel {
         return 0
     }
     
-    func cellForRowAt (index: Int) -> Movies {
-        return movies[index]
+    func cellForRowAt (index: Int) -> Movies? {
+        if let movies = movies {
+            return movies[index]
+        }
+        return nil
     }
     
     func  didTapMoviesCell(index: Int) {
@@ -58,15 +64,18 @@ final class MoviesViewModel {
     }
     
     func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
-        if let posterPath = movies[index].posterPath {
-            
-            self.urlStringForCheckImage = posterPath
-            
-            apiService.getMovieImages(posterPath: posterPath) { data in
-                if let image = UIImage(data: data) {
-                    completion(image, self.movies[index].title, self.movies[index].overview, self.movies[index].voteAverage)
-                }
-            }
+        if let movies = movies {
+            if let posterPath = movies[index].posterPath {
+                   self.urlStringForCheckImage = posterPath
+                   
+                   if let api = apiService {
+                       api.getMovieImages(posterPath: posterPath) { data in
+                           if let image = UIImage(data: data) {
+                               completion(image, movies[index].title, movies[index].overview, movies[index].voteAverage)
+                           }
+                       }
+                   }
+               }
         }
         completion(nil, nil, nil, nil)
     }
@@ -74,41 +83,53 @@ final class MoviesViewModel {
     func searchMovies(titleMovies: String, completion: @escaping (() -> Void)) {
         if titleMovies == "" {
             statusOfLoadMovie.loading = true
-            self.movies = self.apiService.popularMovies
+            if let api = apiService {
+                self.movies = api.popularMovies
+            }
             completion()
         } else {
             statusOfLoadMovie.loading = false
-            apiService.getMoviesSearch(searchText: titleMovies) { result in
-                self.movies = result
-                completion()
+            if let api = apiService {
+                api.getMoviesSearch(searchText: titleMovies) { result in
+                    self.movies = result
+                    completion()
+                }
             }
         }
     }
     
     func getTitle(index: Int) -> String? {
-        if let title = movies[index].title {
-            return title
+        if let movies = movies {
+            if let title = movies[index].title {
+               return title
+            }
         }
         return nil
     }
     
     func getAverage(index: Int) -> Double? {
-        if let average = movies[index].voteAverage {
-            return average
+        if let movies = movies {
+            if let average = movies[index].voteAverage {
+                return average
+            }
         }
         return nil
     }
     
     func getOverview(index: Int) -> String? {
-        if let overview = movies[index].overview {
-            return overview
+        if let movies = movies {
+            if let overview = movies[index].overview {
+                return overview
+            }
         }
         return nil
     }
     
     func getPosterPath(index: Int) -> String? {
-        if let posterPath = movies[index].posterPath {
-            return posterPath
+        if let movies = movies {
+            if let posterPath = movies[index].posterPath {
+                return posterPath
+            }
         }
         return nil
     }
@@ -116,8 +137,9 @@ final class MoviesViewModel {
     func createCell(table: UITableView, indexPath: IndexPath) -> DetaillMovieCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         let viewModelCell = DetaillMovieCellModel()
-        cell.viewModelCell = viewModelCell
-        viewModelCell.movie = movies[indexPath.row]
+        if let movies = movies {
+            viewModelCell.movie = movies[indexPath.row]
+        }
         viewModelCell.apiService = apiService
         cell.selectionStyle = .none
         

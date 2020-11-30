@@ -20,7 +20,7 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     private let window: UIWindow
     private var menu: SideMenuNavigationController?
     private let menuViewModel = MenuViewModel()
-    var moviesCoordinator: MoviesCoordinator!
+    var moviesCoordinator: MoviesCoordinator?
     var dataMenager = DataManager()
     
     init(window: UIWindow) {
@@ -30,8 +30,10 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     
     func start() {
         self.moviesCoordinator = MoviesCoordinator(navigationController: navigationController)
-        self.moviesCoordinator.start()
-        self.moviesCoordinator.parentCoordinator = self
+        if let moviesCoordinator = moviesCoordinator {
+            moviesCoordinator.start()
+            moviesCoordinator.parentCoordinator = self
+        }
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
     }
@@ -58,7 +60,9 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     }
     
     func updateListMovies() {
-        self.moviesCoordinator.updateMovieList()
+        if let moviesCoordinator = moviesCoordinator {
+            moviesCoordinator.updateMovieList()
+        }
     }
     
     func updateDataSource(index: Int) {

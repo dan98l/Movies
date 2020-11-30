@@ -11,8 +11,8 @@ import UIKit
 class MenuViewController: UIViewController {
     
     // MARK: - Properties
-    var viewModel: MenuViewModel!
-    private var menuTableView: UITableView!
+    var viewModel: MenuViewModel?
+    private var menuTableView: UITableView?
 
     static func instantiate() -> MenuViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -44,14 +44,17 @@ class MenuViewController: UIViewController {
         let displayHeight: CGFloat = self.view.frame.height
 
         menuTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
-        menuTableView.dataSource = self
-        menuTableView.delegate = self
-        menuTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        menuTableView.backgroundColor = .darkGray
         
-        menuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
-        
-        self.view.addSubview(menuTableView)
+        if let menuTable = menuTableView {
+            menuTable.dataSource = self
+            menuTable.delegate = self
+            menuTable.separatorStyle = UITableViewCell.SeparatorStyle.none
+            menuTable.backgroundColor = .darkGray
+            
+            menuTable.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
+            
+            self.view.addSubview(menuTable)
+        }
     }
     
     private func setNavigationController() {
@@ -63,7 +66,9 @@ class MenuViewController: UIViewController {
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapSettings()
+        if let model = viewModel {
+            model.didTapSettings()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

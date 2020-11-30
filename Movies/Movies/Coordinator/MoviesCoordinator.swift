@@ -14,9 +14,9 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     private var navigationController = UINavigationController()
     var parentCoordinator: AppCoordinator?
     var dataMenager = DataManager()
-    var moviesViewModel: MoviesViewModel!
-    var selectedDataSource: APIService!
-    var moviesViewController: MoviesViewController!
+    var moviesViewModel: MoviesViewModel?
+    var selectedDataSource: APIService?
+    var moviesViewController: MoviesViewController?
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -25,22 +25,32 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func start() {
         moviesViewController = MoviesViewController.instantiate()
-        moviesViewModel = MoviesViewModel(apiService: selectedDataSource)
+        if let selectedDataSource = selectedDataSource {
+            moviesViewModel = MoviesViewModel(apiService: selectedDataSource)
+        }
         
         settingSearchBar()
         
-        moviesViewModel.delegate = self
-        moviesViewController.viewModel = moviesViewModel
+        if let moviesViewModel = moviesViewModel {
+            moviesViewModel.delegate = self
+        }
         
-        navigationController.setViewControllers([moviesViewController], animated: true)
+        if let moviesViewController = moviesViewController {
+            moviesViewController.viewModel = moviesViewModel
+            navigationController.setViewControllers([moviesViewController], animated: true)
+        }
     }
     
     func settingSearchBar() {
         switch selectedDataSource {
         case is APIServiceTmbd:
-            moviesViewController.searchBar.isHidden = false
+            if let moviesViewController = moviesViewController {
+                moviesViewController.searchBar.isHidden = false
+            }
         case is APIServiceKinopoisk:
-            moviesViewController.searchBar.isHidden = true
+            if let moviesViewController = moviesViewController {
+                moviesViewController.searchBar.isHidden = true
+            }
         default:
             break
         }
@@ -48,20 +58,24 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func showDetailMovie(index: Int) {
         let detailMovieViewController = DetailMovieViewController.instantiate()
-        let detailMovieViewModel = DetailMovieViewModel(movie: selectedDataSource.movies[index], apiService: selectedDataSource)
-        
-        detailMovieViewController.viewModel = detailMovieViewModel
-        
-        self.navigationController.pushViewController(detailMovieViewController, animated: true)
+        if let selectedDataSource = selectedDataSource {
+            let detailMovieViewModel = DetailMovieViewModel(movie: selectedDataSource.movies[index], apiService: selectedDataSource)
+            detailMovieViewController.viewModel = detailMovieViewModel
+            self.navigationController.pushViewController(detailMovieViewController, animated: true)
+        }
     }
     
     func updateMovieList() {
         selectedDataSource = self.checkDataSource()
-        moviesViewModel.apiService = selectedDataSource
-        moviesViewModel.statusOfLoadMovie.page = 1
+        if let moviesViewModel = moviesViewModel {
+            moviesViewModel.apiService = selectedDataSource
+            moviesViewModel.statusOfLoadMovie.page = 1
+        }
         settingSearchBar()
-        moviesViewController.setupTableView()
-        navigationController.setViewControllers([moviesViewController], animated: true)
+        if let moviesViewController = moviesViewController {
+            moviesViewController.setupTableView()
+            navigationController.setViewControllers([moviesViewController], animated: true)
+        }
     }
     
     func showMenu() {

@@ -17,7 +17,7 @@ class MoviesViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
-    var viewModel: MoviesViewModel!
+    var viewModel: MoviesViewModel?
     let searchBar = UISearchBar()
     
     static func instantiate() -> MoviesViewController {
@@ -54,16 +54,20 @@ class MoviesViewController: UIViewController {
     
     @objc func didTapLeftBarButton() {
         SideMenuManager.default.addPanGestureToPresent(toView: self.view)
-        viewModel.didTapMenu()
+        if let model = viewModel {
+            model.didTapMenu()
+        }
     }
     
     func setupTableView() {
-        viewModel.getPopularMovies(indexPage: viewModel.statusOfLoadMovie.page, completion: {
-            self.table.delegate = self
-            self.table.dataSource = self
-            self.table.rowHeight = 245
-            self.table.reloadData()
-        })
+        if let model = viewModel {
+            model.getPopularMovies(indexPage: model.statusOfLoadMovie.page, completion: {
+                self.table.delegate = self
+                self.table.dataSource = self
+                self.table.rowHeight = 245
+                self.table.reloadData()
+            })
+        }
     }
 }
 
@@ -71,15 +75,23 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.didTapMoviesCell(index: indexPath.row)
+        if let model = viewModel {
+            model.didTapMoviesCell(index: indexPath.row)
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRowsInSection(section: section)
+        if let model = viewModel {
+            return model.numberOfRowsInSection(section: section)
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return viewModel.createCell(table: table, indexPath: indexPath)
+        if let model = viewModel {
+            return model.createCell(table: table, indexPath: indexPath)
+        }
+        return UITableViewCell()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -94,20 +106,24 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func loadMoreMovies() {
-        if viewModel.statusOfLoadMovie.loading {
-            viewModel.getPopularMovies(indexPage: viewModel.statusOfLoadMovie.page, completion: {
-                self.activityIndicator.stopAnimating()
-                self.table.reloadData()
-            })
-        }
+        if let model = viewModel {
+          if model.statusOfLoadMovie.loading {
+               model.getPopularMovies(indexPage: model.statusOfLoadMovie.page, completion: {
+                   self.activityIndicator.stopAnimating()
+                   self.table.reloadData()
+               })
+           }
+       }
     }
 }
 
 // MARK: - UISearchBarDelegate
 extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        viewModel.searchMovies(titleMovies: searchBar.text!) {
-             self.table.reloadData()
+        if let model = viewModel {
+            model.searchMovies(titleMovies: searchBar.text!) {
+                 self.table.reloadData()
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ class DetailMovieViewController: UIViewController {
     @IBOutlet private weak var movieTitle: UILabel!
     
     // MARK: - Properties
-    var viewModel: DetailMovieViewModel!
+    var viewModel: DetailMovieViewModel?
     
     static func instantiate() -> DetailMovieViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: .main)
@@ -30,19 +30,21 @@ class DetailMovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        movieTitle.text = viewModel.getTitle()
-        
-        movieDate.text = viewModel.getDate()
-        
-        movieAverage.text = String(format: "%.1f", viewModel.getAverage()!)
-        
-        movieOverview.text = viewModel.getOverview()
-        
-        viewModel.getImageOfMovie { image in
-            if let image = image {
-                self.movieImageView.image = image
-            } else {
-                self.movieImageView.image = UIImage(named: "noimage")
+        if let model = viewModel {
+            movieTitle.text = model.getTitle()
+            
+            movieDate.text = model.getDate()
+            
+            movieAverage.text = String(format: "%.1f", model.getAverage()!)
+            
+            movieOverview.text = model.getOverview()
+            
+            model.getImageOfMovie { image in
+                if let image = image {
+                    self.movieImageView.image = image
+                } else {
+                    self.movieImageView.image = UIImage(named: "noimage")
+                }
             }
         }
     }
