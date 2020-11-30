@@ -17,9 +17,12 @@ final class MoviesViewModel {
     
     // MARK: - Properties
     var apiService: APIService!
+    
     weak var delegate: MoviesViewModelDelegate?
     var movies: [Movies]!
     var statusOfLoadMovie = (loading: true, page: 1)
+    
+    var urlStringForCheckImage = ""
     
     init(apiService: APIService) {
         self.apiService = apiService
@@ -56,6 +59,9 @@ final class MoviesViewModel {
     
     func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
         if let posterPath = movies[index].posterPath {
+            
+            self.urlStringForCheckImage = posterPath
+            
             apiService.getMovieImages(posterPath: posterPath) { data in
                 if let image = UIImage(data: data) {
                     completion(image, self.movies[index].title, self.movies[index].overview, self.movies[index].voteAverage)
@@ -105,5 +111,23 @@ final class MoviesViewModel {
             return posterPath
         }
         return nil
+    }
+    
+    func createCell(table: UITableView, indexPath: IndexPath) -> DetaillMovieCell {
+        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
+        let viewModelCell = DetaillMovieCellModel()
+        cell.viewModelCell = viewModelCell
+        viewModelCell.movie = movies[indexPath.row]
+        viewModelCell.apiService = apiService
+        cell.selectionStyle = .none
+        
+        cell.titleOfMovie = viewModelCell.getTitle()
+        cell.averageOfMovie = viewModelCell.getAverage()
+        cell.overviewOfMovie = viewModelCell.getOverview()
+        viewModelCell.getImageOfMovie(completion: { image in
+            cell.imageOfMovie = image
+        })
+        
+        return cell
     }
 }

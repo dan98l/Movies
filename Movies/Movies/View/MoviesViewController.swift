@@ -79,18 +79,7 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
-        cell.selectionStyle = .none
-        
-        cell.averageOfMovie = self.viewModel.getAverage(index: indexPath.row)
-        cell.overviewOfMovie = self.viewModel.getOverview(index: indexPath.row)
-        cell.titleOfMovie = self.viewModel.getTitle(index: indexPath.row)
-        
-        viewModel.getImageOfMovie(index: indexPath.row) { image, title, overview, voteAverage in
-            cell.setImageOfMovie(image: image, title: title, overview: overview, voteAverage: voteAverage)
-        }
-        
-        return cell
+        return viewModel.createCell(table: table, indexPath: indexPath)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

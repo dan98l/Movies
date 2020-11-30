@@ -17,6 +17,20 @@ class DetaillMovieCell: UITableViewCell {
     @IBOutlet private weak var movieOverview: UILabel!
     
     // MARK: - Properties
+    var viewModelCell: DetaillMovieCellModel!
+    
+    var imageOfMovie: UIImage? {
+        didSet {
+            if let image = imageOfMovie {
+                movieImageView.image = image
+                movieImageViewForBluer.image = image
+            } else {
+                movieImageView.image = UIImage(named: "noimage")
+                movieImageViewForBluer.image = nil
+            }
+        }
+    }
+    
     var titleOfMovie: String? {
         didSet {
             if let title = titleOfMovie {
