@@ -54,9 +54,8 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         let detailMovieViewModel = DetailMovieViewModel(movie: movie)
         detailMovieViewController.viewModel = detailMovieViewModel
         
-//        moviesViewModel.getImageMovie(index: index, completion: { image in
+//        moviesViewModel.getImageOfMovie(index: index, completion: { image in
 //            detailMovieViewModel.imageMovie = image
-//            self.navigationController.pushViewController(detailMovieViewController, animated: true)
 //        })
         
         self.navigationController.pushViewController(detailMovieViewController, animated: true)

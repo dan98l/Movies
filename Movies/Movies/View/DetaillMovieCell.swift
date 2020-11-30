@@ -15,20 +15,8 @@ class DetaillMovieCell: UITableViewCell {
     @IBOutlet private weak var movieTitle: UILabel!
     @IBOutlet private weak var movieAverage: UILabel!
     @IBOutlet private weak var movieOverview: UILabel!
+    
     // MARK: - Properties
-    
-    var imageOfMovie: UIImage? {
-        didSet {
-            if let image = imageOfMovie {
-                movieImageView.image = image
-                movieImageViewForBluer.image = image
-            } else {
-                movieImageView.image = UIImage(named: "noimage")
-                movieImageViewForBluer.image = nil
-            }
-        }
-    }
-    
     var titleOfMovie: String? {
         didSet {
             if let title = titleOfMovie {
@@ -54,6 +42,16 @@ class DetaillMovieCell: UITableViewCell {
             } else {
                 movieOverview.text  = "No description"
             }
+        }
+    }
+    
+    func setImageOfMovie(image: UIImage?, title: String?, overview: String?, voteAverage: Double?) {
+        if title == titleOfMovie && overview == overviewOfMovie && voteAverage == averageOfMovie {
+            movieImageView.image = image
+            movieImageViewForBluer.image = image
+        } else {
+            movieImageView.image = UIImage(named: "noimage")
+            movieImageViewForBluer.image = nil
         }
     }
 }

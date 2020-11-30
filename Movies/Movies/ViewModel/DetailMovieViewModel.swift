@@ -11,7 +11,15 @@ import UIKit
 class DetailMovieViewModel {
     
     var movie: Movies!
-    var imageMovie: UIImage?
+    var imageMovie: UIImage? {
+        didSet {
+            if let image = imageMovie {
+                imageMovie = image
+            } else {
+                imageMovie = UIImage(named: "noimage")
+            }
+        }
+    }
     
     init(movie: Movies) {
         self.movie = movie

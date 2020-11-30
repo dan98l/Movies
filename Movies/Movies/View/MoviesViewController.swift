@@ -87,9 +87,10 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
         cell.overviewOfMovie = self.viewModel.getOverview(index: indexPath.row)
         cell.titleOfMovie = self.viewModel.getTitle(index: indexPath.row)
         
-        viewModel.getImageOfMovie(index: indexPath.row) { image, posterPath in
-            cell.imageOfMovie = image
+        viewModel.getImageOfMovie(index: indexPath.row) { image, title, overview, voteAverage in
+            cell.setImageOfMovie(image: image, title: title, overview: overview, voteAverage: voteAverage)
         }
+        
         return cell
     }
     

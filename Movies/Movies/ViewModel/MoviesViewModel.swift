@@ -54,18 +54,16 @@ final class MoviesViewModel {
         delegate?.showMenu()
     }
     
-    func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?) -> Void)) {
+    func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
 
         if let posterPath = movies[index].posterPath {
             apiService.getMovieImages(posterPath: posterPath) { data in
                 if let image = UIImage(data: data) {
-                    completion(image, posterPath)
-                } else {
-                    print("ERROR, NO IMAGE!")
+                    completion(image, self.movies[index].title, self.movies[index].overview, self.movies[index].voteAverage)
                 }
             }
         }
-        completion(nil, nil)
+        completion(nil, nil, nil, nil)
     }
     
     func searchMovies(titleMovies: String, completion: @escaping (() -> Void)) {
