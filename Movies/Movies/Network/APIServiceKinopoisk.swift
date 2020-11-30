@@ -13,7 +13,7 @@ class APIServiceKinopoisk: APIService {
     
     // MARK: - Properties
     private var urlStringPartOne = "https://api.kinopoisk.cloud/movies/all/page/"
-    private var urlStringPartTwo = "/token/66c34cdc9db6e03fc516ca92036617c0"
+    private var urlStringPartTwo = "/token/cb4feb47794f420de1ed509cbc9ba038"
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
     var movies: [Movies] = []
