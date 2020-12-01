@@ -66,8 +66,8 @@
                                                             <constraint firstItem="1S1-xe-lDg" firstAttribute="leading" secondItem="nYA-7S-bgI" secondAttribute="leading" constant="171" id="CnN-Xp-tAI"/>
                                                             <constraint firstItem="DO9-IB-y5x" firstAttribute="top" secondItem="nYA-7S-bgI" secondAttribute="top" id="DmT-r1-lsY"/>
                                                             <constraint firstItem="xtI-MV-x4M" firstAttribute="leading" secondItem="nYA-7S-bgI" secondAttribute="leading" constant="171" id="GQW-5q-Xug"/>
-                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xtI-MV-x4M" secondAttribute="trailing" symbolic="YES" id="L70-4W-qtv"/>
-                                                            <constraint firstItem="sLw-pH-PwS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nYA-7S-bgI" secondAttribute="leading" symbolic="YES" id="M7y-D2-xDn"/>
+                                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xtI-MV-x4M" secondAttribute="trailing" constant="20" symbolic="YES" id="L70-4W-qtv"/>
+                                                            <constraint firstItem="sLw-pH-PwS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nYA-7S-bgI" secondAttribute="leading" constant="20" symbolic="YES" id="M7y-D2-xDn"/>
                                                             <constraint firstItem="xtI-MV-x4M" firstAttribute="top" secondItem="nYA-7S-bgI" secondAttribute="top" constant="99" id="MZ0-Gc-PiI"/>
                                                             <constraint firstItem="sLw-pH-PwS" firstAttribute="top" secondItem="nYA-7S-bgI" secondAttribute="top" constant="7" id="Pbx-wF-fSB"/>
                                                             <constraint firstAttribute="bottom" secondItem="1S1-xe-lDg" secondAttribute="bottom" constant="115" id="WDi-yp-dqK"/>

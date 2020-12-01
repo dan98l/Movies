@@ -6,7 +6,7 @@
 //  Copyright © 2020 Daniil G. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 protocol MoviesViewModelDelegate: class {
     func showDetailMovie(index: Int)
@@ -63,21 +63,6 @@ final class MoviesViewModel {
         delegate?.showMenu()
     }
     
-    func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
-        if let movies = movies, let posterPath = movies[index].posterPath {
-            self.urlStringForCheckImage = posterPath
-                   
-            if let api = apiService {
-                api.getMovieImages(posterPath: posterPath) { data in
-                    if let image = UIImage(data: data) {
-                        completion(image, movies[index].title, movies[index].overview, movies[index].voteAverage)
-                    }
-                }
-            }
-        }
-        completion(nil, nil, nil, nil)
-    }
-    
     func searchMovies(titleMovies: String, completion: @escaping (() -> Void)) {
         if titleMovies == "" {
             statusOfLoadMovie.loading = true
@@ -124,7 +109,12 @@ final class MoviesViewModel {
         return nil
     }
     
-    func createModelOfCell() -> DetaillMovieCellModel {
-        return DetaillMovieCellModel()
+    func cellViewModel(index: Int) -> DetaillMovieCellModel {
+        let viewModelCell = DetaillMovieCellModel()
+        if let movies = movies, let apiService = apiService {
+            viewModelCell.movie = movies[index]
+            viewModelCell.apiService = apiService
+        }
+        return viewModelCell
     }
 }
