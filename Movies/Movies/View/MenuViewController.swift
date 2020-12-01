@@ -45,15 +45,15 @@ class MenuViewController: UIViewController {
 
         menuTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
         
-        if let menuTable = menuTableView {
-            menuTable.dataSource = self
-            menuTable.delegate = self
-            menuTable.separatorStyle = UITableViewCell.SeparatorStyle.none
-            menuTable.backgroundColor = .darkGray
+        if let menuTableView = menuTableView {
+            menuTableView.dataSource = self
+            menuTableView.delegate = self
+            menuTableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+            menuTableView.backgroundColor = .darkGray
             
-            menuTable.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
+            menuTableView.register(UITableViewCell.self, forCellReuseIdentifier: "MenuCell")
             
-            self.view.addSubview(menuTable)
+            self.view.addSubview(menuTableView)
         }
     }
     
@@ -66,8 +66,8 @@ class MenuViewController: UIViewController {
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let model = viewModel {
-            model.didTapSettings()
+        if let viewModel = viewModel {
+            viewModel.didTapSettings()
         }
     }
     

@@ -13,8 +13,8 @@ class APIServiceTmbd: APIService {
     
     // MARK: - Properties
     private var urlString = "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page="
-    private var urlStringPartOne = "https://api.themoviedb.org/3/search/movie?api_key=afb20793e1a7d571016fad7cdd7d6075&query="
-    private var urlStringPartTwo = "&page=1"
+    private var urlStringWithoutPage = "https://api.themoviedb.org/3/search/movie?api_key=afb20793e1a7d571016fad7cdd7d6075&query="
+    private var urlStringPage = "&page=1"
     private var urlImageString = "https://image.tmdb.org/t/p/w500"
     
     var popularMoviesTmbd: [MovieTmbd] = []
@@ -22,7 +22,7 @@ class APIServiceTmbd: APIService {
     var popularMovies: [Movies] = []
     var movies: [Movies] = []
     
-    func getMoviesData(indexPage: Int, completion: @escaping () -> Void) {
+    func getMovies(indexPage: Int, completion: @escaping () -> Void) {
         AF.request(urlString + String(indexPage)).responseJSON { res in
             guard let data = res.data else { return }
             do {
@@ -45,7 +45,7 @@ class APIServiceTmbd: APIService {
         }
     }
     
-    func getMovieImages(posterPath: String, completion: @escaping (Data) -> Void) {
+    func getImageData(posterPath: String, completion: @escaping (Data) -> Void) {
         AF.request(urlImageString + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)
@@ -54,7 +54,7 @@ class APIServiceTmbd: APIService {
     
     func getMoviesSearch(searchText: String, completion: @escaping ([Movies]) -> Void) {
         self.movies = []
-        AF.request(urlStringPartOne+searchText+urlStringPartTwo).responseJSON { res in
+        AF.request(urlStringWithoutPage + searchText + urlStringPage).responseJSON { res in
             guard let data = res.data else { return }
             do {
                 let movies = try JSONDecoder().decode(MoviesTmbd.self, from: data)

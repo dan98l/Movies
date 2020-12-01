@@ -30,18 +30,15 @@ class DetailMovieViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let model = viewModel {
-            movieTitle.text = model.getTitle()
+        if let viewModel = viewModel {
+            movieTitle.text = viewModel.movieTitle()
+            movieDate.text = viewModel.movieDate()
+            movieAverage.text = String(format: "%.1f", viewModel.movieAverage()!)
+            movieOverview.text = viewModel.movieOverview()
             
-            movieDate.text = model.getDate()
-            
-            movieAverage.text = String(format: "%.1f", model.getAverage()!)
-            
-            movieOverview.text = model.getOverview()
-            
-            model.getImageOfMovie { image in
-                if let image = image {
-                    self.movieImageView.image = image
+            viewModel.getImageData { data in
+                if let data = data {
+                    self.movieImageView.image = UIImage(data: data)
                 } else {
                     self.movieImageView.image = UIImage(named: "noimage")
                 }

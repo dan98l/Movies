@@ -32,10 +32,10 @@ class MoviesViewController: UIViewController {
             
         setNavigationController()
         setupTableView()
-        createSearchBar()
+        setSearchBar()
     }
     
-    private func createSearchBar() {
+    private func setSearchBar() {
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Enter your search here"
         searchBar.delegate = self
@@ -61,7 +61,7 @@ class MoviesViewController: UIViewController {
     
     func setupTableView() {
         if let model = viewModel {
-            model.getPopularMovies(indexPage: model.statusOfLoadMovie.page, completion: {
+            model.getPopularMovies(indexPage: model.movieLoadStatus.page, completion: {
                 self.table.delegate = self
                 self.table.dataSource = self
                 self.table.rowHeight = 245
@@ -75,14 +75,14 @@ class MoviesViewController: UIViewController {
 extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let model = viewModel {
-            model.didTapMoviesCell(index: indexPath.row)
+        if let viewModel = viewModel {
+            viewModel.didTapMoviesCell(index: indexPath.row)
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let model = viewModel {
-            return model.numberOfRowsInSection(section: section)
+        if let viewModel = viewModel {
+            return viewModel.numberOfRowsInSection(section: section)
         }
         return 0
     }
@@ -94,11 +94,11 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
         if let viewModel = viewModel {
             let cellViewModel = viewModel.cellViewModel(index: indexPath.row)
             
-            cell.titleOfMovie = cellViewModel.getTitle()
-            cell.averageOfMovie = cellViewModel.getAverage()
-            cell.overviewOfMovie = cellViewModel.getOverview()
-            cellViewModel.getImageOfMovie(completion: { image in
-                cell.imageOfMovie = image
+            cell.movieTitle = cellViewModel.movieTitle()
+            cell.movieAverage = cellViewModel.movieAverage()
+            cell.movieOverview = cellViewModel.movieOverview()
+            cellViewModel.getImageData(completion: { data in
+                cell.movieData = data
             })
         }
         
@@ -117,9 +117,9 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func loadMoreMovies() {
-        if let model = viewModel {
-          if model.statusOfLoadMovie.loading {
-               model.getPopularMovies(indexPage: model.statusOfLoadMovie.page, completion: {
+        if let viewModel = viewModel {
+          if viewModel.movieLoadStatus.loading {
+               viewModel.getPopularMovies(indexPage: viewModel.movieLoadStatus.page, completion: {
                    self.activityIndicator.stopAnimating()
                    self.table.reloadData()
                })
@@ -131,8 +131,8 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - UISearchBarDelegate
 extension MoviesViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if let model = viewModel {
-            model.searchMovies(titleMovies: searchBar.text!) {
+        if let viewModel = viewModel {
+            viewModel.searchMovies(titleMovies: searchBar.text!) {
                  self.table.reloadData()
             }
         }

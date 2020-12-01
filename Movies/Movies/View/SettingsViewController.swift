@@ -12,8 +12,8 @@ class SettingsViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBAction func didChangeSegmentDataSource(_ sender: UISegmentedControl) {
-        if let model = viewModel {
-            model.changeDataSource(indexSegmentedControl: sender.selectedSegmentIndex)
+        if let viewModel = viewModel {
+            viewModel.changeDataSource(indexSegmentedControl: sender.selectedSegmentIndex)
         }
     }
     @IBOutlet weak var segmentControlDataSource: UISegmentedControl!

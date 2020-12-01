@@ -69,7 +69,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         selectedDataSource = self.checkDataSource()
         if let moviesViewModel = moviesViewModel {
             moviesViewModel.apiService = selectedDataSource
-            moviesViewModel.statusOfLoadMovie.page = 1
+            moviesViewModel.movieLoadStatus.page = 1
         }
         settingSearchBar()
         if let moviesViewController = moviesViewController {
@@ -83,7 +83,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     }
     
     func checkDataSource() -> APIService {
-        switch dataMenager.getDataSource() {
+        switch dataMenager.dataSource() {
         case "APIServiceTmbd":
             return APIServiceTmbd()
         case "APIServiceKinopoisk":

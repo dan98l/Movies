@@ -6,7 +6,7 @@
 //  Copyright © 2020 Daniil G. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class DetailMovieViewModel {
     
@@ -18,38 +18,38 @@ class DetailMovieViewModel {
         self.apiService = apiService
     }
     
-    func getTitle() -> String? {
+    func movieTitle() -> String? {
         if let movie = movie, let title = movie.title {
             return title
         }
         return nil
     }
     
-    func getAverage() -> Double? {
+    func movieAverage() -> Double? {
         if let movie = movie, let average = movie.voteAverage {
             return average
         }
         return nil
     }
     
-    func getOverview() -> String? {
+    func movieOverview() -> String? {
         if let movie = movie, let overview = movie.overview {
             return overview
         }
         return nil
     }
     
-    func getDate() -> String? {
+    func movieDate() -> String? {
         if let movie = movie, let date = movie.releaseDate {
             return date
         }
         return nil
     }
     
-    func getImageOfMovie(completion: @escaping ((UIImage?) -> Void)) {
+    func getImageData(completion: @escaping ((Data?) -> Void)) {
         if let movie = movie, let posterPath = movie.posterPath, let api = apiService {
-            api.getMovieImages(posterPath: posterPath) { data in
-                completion(UIImage(data: data))
+            api.getImageData(posterPath: posterPath) { data in
+                completion(data)
             }
         }
         completion(nil)

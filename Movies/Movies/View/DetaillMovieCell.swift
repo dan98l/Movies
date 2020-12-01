@@ -12,16 +12,16 @@ class DetaillMovieCell: UITableViewCell {
     // MARK: - IBOutlets
     @IBOutlet private weak var movieImageViewForBluer: UIImageView!
     @IBOutlet private weak var movieImageView: UIImageView!
-    @IBOutlet private weak var movieTitle: UILabel!
-    @IBOutlet private weak var movieAverage: UILabel!
-    @IBOutlet private weak var movieOverview: UILabel!
+    @IBOutlet private weak var title: UILabel!
+    @IBOutlet private weak var average: UILabel!
+    @IBOutlet private weak var overview: UILabel!
     
     // MARK: - Properties
-    var imageOfMovie: UIImage? {
+    var movieData: Data? {
         didSet {
-            if let image = imageOfMovie {
-                movieImageView.image = image
-                movieImageViewForBluer.image = image
+            if let movieData = movieData {
+                movieImageView.image = UIImage(data: movieData)
+                movieImageViewForBluer.image = UIImage(data: movieData)
             } else {
                 movieImageView.image = UIImage(named: "noimage")
                 movieImageViewForBluer.image = nil
@@ -29,30 +29,30 @@ class DetaillMovieCell: UITableViewCell {
         }
     }
     
-    var titleOfMovie: String? {
+    var movieTitle: String? {
         didSet {
-            if let title = titleOfMovie {
-                movieTitle.text = title
+            if let movieTitle = movieTitle {
+                title.text = movieTitle
             } else {
-                movieTitle.text = "No title"
+                title.text = "No title"
             }
         }
     }
     
-    var averageOfMovie: Double? {
+    var movieAverage: Double? {
         didSet {
-            if let average = averageOfMovie {
-                movieAverage.text = String(format: "%.1f", average)
+            if let movieAverage = movieAverage {
+                average.text = String(format: "%.1f", movieAverage)
             }
         }
     }
     
-    var overviewOfMovie: String? {
+    var movieOverview: String? {
         didSet {
-            if let overview = overviewOfMovie {
-                movieOverview.text = overview
+            if let movieOverview = movieOverview {
+                overview.text = movieOverview
             } else {
-                movieOverview.text  = "No description"
+                overview.text  = "No description"
             }
         }
     }

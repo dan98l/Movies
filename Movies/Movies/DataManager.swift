@@ -15,7 +15,7 @@ class DataManager {
         UserDefaults.standard.synchronize()
     }
     
-    func getDataSource() -> String? {
+    func dataSource() -> String? {
         if let answer = UserDefaults.standard.value(forKey: "dataSource") {
             return answer as? String
         }

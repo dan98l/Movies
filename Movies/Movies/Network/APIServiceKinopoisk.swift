@@ -12,15 +12,15 @@ import Alamofire
 class APIServiceKinopoisk: APIService {
     
     // MARK: - Properties
-    private var urlStringPartOne = "https://api.kinopoisk.cloud/movies/all/page/"
-    private var urlStringPartTwo = "/token/cb4feb47794f420de1ed509cbc9ba038"
+    private var urlStringWithoutPage = "https://api.kinopoisk.cloud/movies/all/page/"
+    private var urlStringPartToken = "/token/353adae387d51e7e97302a2eef43c29f"
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
     var movies: [Movies] = []
     var popularMovies: [Movies] = []
     
-    func getMoviesData(indexPage: Int, completion: @escaping () -> Void) {
-       AF.request(urlStringPartOne + String(indexPage) + urlStringPartTwo).responseJSON { res in
+    func getMovies(indexPage: Int, completion: @escaping () -> Void) {
+       AF.request(urlStringWithoutPage + String(indexPage) + urlStringPartToken).responseJSON { res in
             guard let data = res.data else { return }
             do {
                 let movies = try JSONDecoder().decode(MoviesKinopoisk.self, from: data)
@@ -43,7 +43,7 @@ class APIServiceKinopoisk: APIService {
         }
     }
     
-    func getMovieImages(posterPath: String, completion: @escaping (Data) -> Void) {
+    func getImageData(posterPath: String, completion: @escaping (Data) -> Void) {
         AF.request("https:" + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)

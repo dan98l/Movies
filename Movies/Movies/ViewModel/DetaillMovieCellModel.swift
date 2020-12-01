@@ -12,31 +12,31 @@ class DetaillMovieCellModel {
     var movie: Movies?
     var apiService: APIService?
     
-    func getTitle() -> String? {
-        if let movie = movie, let title = movie.title  {
-            return title
+    func movieTitle() -> String? {
+        if let movie = movie {
+            return movie.title
         }
         return nil
     }
     
-    func getAverage() -> Double? {
-        if let movie = movie, let average = movie.voteAverage {
-            return average
+    func movieAverage() -> Double? {
+        if let movie = movie {
+            return movie.voteAverage
         }
         return nil
     }
     
-    func getOverview() -> String? {
-        if let movie = movie, let overview = movie.overview {
-            return overview
+    func movieOverview() -> String? {
+        if let movie = movie {
+            return movie.overview
         }
         return nil
     }
     
-    func getImageOfMovie(completion: @escaping ((UIImage?) -> Void)) {
-        if let movie = movie, let posterPath = movie.posterPath, let api = apiService  {
-            api.getMovieImages(posterPath: posterPath) { data in
-                completion(UIImage(data: data))
+    func getImageData(completion: @escaping ((Data?) -> Void)) {
+        if let movie = movie, let posterPath = movie.posterPath, let api = apiService {
+            api.getImageData(posterPath: posterPath) { data in
+                completion(data)
             }
        }
        completion(nil)

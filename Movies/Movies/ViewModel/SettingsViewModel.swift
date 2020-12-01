@@ -26,6 +26,9 @@ class SettingsViewModel {
     }
     
     func setSegmentedControl() -> Int {
-        return delegate!.getIndexForSegmentedControl()
+        if let delegate = delegate {
+            return delegate.getIndexForSegmentedControl()
+        }
+        return 0
     }
 }

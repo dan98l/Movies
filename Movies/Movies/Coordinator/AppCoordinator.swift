@@ -76,7 +76,7 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     }
     
     func getIndexForSegmentedControl() -> Int {
-        let apiName = dataMenager.getDataSource()
+        let apiName = dataMenager.dataSource()
         switch apiName {
         case "APIServiceTmbd":
              return 0
