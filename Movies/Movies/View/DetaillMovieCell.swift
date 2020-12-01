@@ -56,14 +56,4 @@ class DetaillMovieCell: UITableViewCell {
             }
         }
     }
-    
-    func setImageOfMovie(image: UIImage?, title: String?, overview: String?, voteAverage: Double?) {
-        if title == titleOfMovie && overview == overviewOfMovie && voteAverage == averageOfMovie {
-            movieImageView.image = image
-            movieImageViewForBluer.image = image
-        } else {
-            movieImageView.image = UIImage(named: "noimage")
-            movieImageViewForBluer.image = nil
-        }
-    }
 }

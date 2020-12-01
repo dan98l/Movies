@@ -64,18 +64,16 @@ final class MoviesViewModel {
     }
     
     func getImageOfMovie(index: Int, completion: @escaping ((UIImage?, String?, String?, Double?) -> Void)) {
-        if let movies = movies {
-            if let posterPath = movies[index].posterPath {
-                   self.urlStringForCheckImage = posterPath
+        if let movies = movies, let posterPath = movies[index].posterPath {
+            self.urlStringForCheckImage = posterPath
                    
-                   if let api = apiService {
-                       api.getMovieImages(posterPath: posterPath) { data in
-                           if let image = UIImage(data: data) {
-                               completion(image, movies[index].title, movies[index].overview, movies[index].voteAverage)
-                           }
-                       }
-                   }
-               }
+            if let api = apiService {
+                api.getMovieImages(posterPath: posterPath) { data in
+                    if let image = UIImage(data: data) {
+                        completion(image, movies[index].title, movies[index].overview, movies[index].voteAverage)
+                    }
+                }
+            }
         }
         completion(nil, nil, nil, nil)
     }
@@ -99,57 +97,34 @@ final class MoviesViewModel {
     }
     
     func getTitle(index: Int) -> String? {
-        if let movies = movies {
-            if let title = movies[index].title {
-               return title
-            }
+        if let movies = movies, let title = movies[index].title {
+            return title
         }
         return nil
     }
     
     func getAverage(index: Int) -> Double? {
-        if let movies = movies {
-            if let average = movies[index].voteAverage {
-                return average
-            }
+        if let movies = movies, let average = movies[index].voteAverage {
+            return average
         }
         return nil
     }
     
     func getOverview(index: Int) -> String? {
-        if let movies = movies {
-            if let overview = movies[index].overview {
-                return overview
-            }
+        if let movies = movies, let overview = movies[index].overview {
+            return overview
         }
         return nil
     }
     
     func getPosterPath(index: Int) -> String? {
-        if let movies = movies {
-            if let posterPath = movies[index].posterPath {
-                return posterPath
-            }
+        if let movies = movies, let posterPath = movies[index].posterPath {
+            return posterPath
         }
         return nil
     }
     
-    func createCell(table: UITableView, indexPath: IndexPath) -> DetaillMovieCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
-        let viewModelCell = DetaillMovieCellModel()
-        if let movies = movies {
-            viewModelCell.movie = movies[indexPath.row]
-        }
-        viewModelCell.apiService = apiService
-        cell.selectionStyle = .none
-        
-        cell.titleOfMovie = viewModelCell.getTitle()
-        cell.averageOfMovie = viewModelCell.getAverage()
-        cell.overviewOfMovie = viewModelCell.getOverview()
-        viewModelCell.getImageOfMovie(completion: { image in
-            cell.imageOfMovie = image
-        })
-        
-        return cell
+    func createModelOfCell() -> DetaillMovieCellModel {
+        return DetaillMovieCellModel()
     }
 }
