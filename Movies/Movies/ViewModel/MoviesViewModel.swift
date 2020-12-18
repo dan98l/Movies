@@ -17,6 +17,7 @@ final class MoviesViewModel {
     
     // MARK: - Properties
     var apiService: APIService?
+    var beamsStars: Int?
     
     weak var delegate: MoviesViewModelDelegate?
     var movies: [Movies]?
@@ -24,8 +25,9 @@ final class MoviesViewModel {
     
     var urlStringForCheckImage = ""
     
-    init(apiService: APIService) {
+    init(apiService: APIService, beamsStars: Int) {
         self.apiService = apiService
+        self.beamsStars = beamsStars
     }
     
     func getPopularMovies(indexPage: Int, completion: @escaping (() -> Void)) {
@@ -39,6 +41,12 @@ final class MoviesViewModel {
                 self.movieLoadStatus.loading = true
             })
         }
+    }
+    
+    func endScroll(completion: @escaping (() -> Void )) {
+        getPopularMovies(indexPage: movieLoadStatus.page, completion: {
+            completion()
+        })
     }
     
     func numberOfRowsInSection(section: Int) -> Int {
@@ -87,8 +95,8 @@ final class MoviesViewModel {
         if let movies = movies {
             viewModelCell.movie = movies[index]
         }
-        
         viewModelCell.apiService = apiService
+        viewModelCell.beamsStars = beamsStars
         return viewModelCell
     }
 }

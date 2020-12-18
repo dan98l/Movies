@@ -9,26 +9,30 @@
 import Foundation
 
 protocol SettingsViewModelDelegate: class {
-    func updateListMovies()
-    func updateDataSource(index: Int)
-    func getIndexForSegmentedControl() -> Int
+    func updateListMoviesView()
+    func changeDataSource(dataSource: Int?)
+    func changeBeamsStars(beams: Int?)
 }
 
 class SettingsViewModel {
-    
     // MARK: - Properties
     weak var delegate: SettingsViewModelDelegate?
-    var dataMenager = DataManager()
+    var segmentedControlIndex = 0
+    var beamsStars = 1
     
-    func changeDataSource(indexSegmentedControl: Int) {
-        delegate?.updateDataSource(index: indexSegmentedControl)
-        delegate?.updateListMovies()
+    func updateDataSource(indexSegmentedControl: Int?) {
+        if let indexSegmentedControl = indexSegmentedControl {
+            delegate?.changeDataSource(dataSource: indexSegmentedControl)
+        }
     }
     
-    func setSegmentedControl() -> Int {
-        if let delegate = delegate {
-            return delegate.getIndexForSegmentedControl()
+    func updateBeamsStars(beams: Int?) {
+        if let beams = beams {
+            delegate?.changeBeamsStars(beams: beams)
         }
-        return 0
+    }
+    
+    func exitSettings() {
+        delegate?.updateListMoviesView()
     }
 }

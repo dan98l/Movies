@@ -14,14 +14,14 @@ protocol Coordinator {
 }
 
 class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDelegate {
-  
+ 
     // MARK: - Properties
     private let navigationController = UINavigationController()
     private let window: UIWindow
     private var menu: SideMenuNavigationController?
     private let menuViewModel = MenuViewModel()
     var moviesCoordinator: MoviesCoordinator?
-    var dataMenager = DataManager()
+    var dataManager = DataManager()
     
     init(window: UIWindow) {
         self.window = window
@@ -40,10 +40,11 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
     
     func showSettingsOfView() {
         let showSettingViewController = SettingsViewController.instantiate()
-        let moviesViewModel = SettingsViewModel()
-        showSettingViewController.viewModel = moviesViewModel
-        moviesViewModel.delegate = self
-        
+        let settingViewModel = SettingsViewModel()
+        showSettingViewController.viewModel = settingViewModel
+        settingViewModel.delegate = self
+        settingViewModel.segmentedControlIndex = getIndexForSegmentedControl()
+         settingViewModel.beamsStars = getBeamsStars()
         navigationController.pushViewController(showSettingViewController, animated: true)
         navigationController.dismiss(animated: true, completion: nil)
     }
@@ -59,24 +60,33 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
         navigationController.present(menu!, animated: true)
     }
     
-    func updateListMovies() {
+    func updateListMoviesView() {
         if let moviesCoordinator = moviesCoordinator {
             moviesCoordinator.updateMovieList()
         }
     }
     
-    func updateDataSource(index: Int) {
-        switch index {
-        case 0:
-            dataMenager.saveDataSource(dataSource: "APIServiceTmbd")
-        case 1:
-            dataMenager.saveDataSource(dataSource: "APIServiceKinopoisk")
-        default: break
+    func changeDataSource(dataSource: Int?) {
+        
+        if let dataSource = dataSource {
+            switch dataSource {
+            case 0:
+                dataManager.saveDataSource(dataSource: "APIServiceTmbd")
+            case 1:
+                dataManager.saveDataSource(dataSource: "APIServiceKinopoisk")
+            default: break
+            }
+        }
+    }
+    
+    func changeBeamsStars(beams: Int?) {
+        if let beams = beams {
+            dataManager.saveBeamsStars(beams: beams)
         }
     }
     
     func getIndexForSegmentedControl() -> Int {
-        let apiName = dataMenager.dataSource()
+        let apiName = dataManager.dataSource()
         switch apiName {
         case "APIServiceTmbd":
              return 0
@@ -84,5 +94,12 @@ class AppCoordinator: Coordinator, MenuViewModelDelegate, SettingsViewModelDeleg
              return 1
         default: return 0
         }
-      }
+    }
+    
+    func getBeamsStars() -> Int {
+        if let beams = dataManager.beamsStars() {
+            return beams
+        }
+        return 2
+    }
 }

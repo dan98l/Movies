@@ -9,7 +9,7 @@
 import UIKit
 
 final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
-    
+        
     // MARK: - Properties
     private var navigationController = UINavigationController()
     var parentCoordinator: AppCoordinator?
@@ -25,8 +25,8 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func start() {
         moviesViewController = MoviesViewController.instantiate()
-        if let selectedDataSource = selectedDataSource {
-            moviesViewModel = MoviesViewModel(apiService: selectedDataSource)
+        if let selectedDataSource = selectedDataSource, let beams = dataMenager.beamsStars() {
+            moviesViewModel = MoviesViewModel(apiService: selectedDataSource, beamsStars: beams)
         }
         
         settingSearchBar()
@@ -70,6 +70,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         if let moviesViewModel = moviesViewModel {
             moviesViewModel.apiService = selectedDataSource
             moviesViewModel.movieLoadStatus.page = 1
+            moviesViewModel.beamsStars = dataMenager.beamsStars()
         }
         settingSearchBar()
         if let moviesViewController = moviesViewController {

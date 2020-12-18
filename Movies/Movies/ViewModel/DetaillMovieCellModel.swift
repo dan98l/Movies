@@ -11,6 +11,7 @@ import UIKit
 class DetaillMovieCellModel {
     var movie: Movies?
     var apiService: APIService?
+    var beamsStars: Int?
     
     func movieTitle() -> String? {
         if let movie = movie {

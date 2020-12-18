@@ -10,21 +10,21 @@ import UIKit
 
 class DetaillMovieCell: UITableViewCell {
     // MARK: - IBOutlets
-    @IBOutlet private weak var movieImageViewForBluer: UIImageView!
+    @IBOutlet private weak var background: UIImageView!
     @IBOutlet private weak var movieImageView: UIImageView!
     @IBOutlet private weak var title: UILabel!
-    @IBOutlet private weak var average: UILabel!
     @IBOutlet private weak var overview: UILabel!
+    @IBOutlet var average: StarShape!
     
     // MARK: - Properties
     var movieData: Data? {
         didSet {
             if let movieData = movieData {
                 movieImageView.image = UIImage(data: movieData)
-                movieImageViewForBluer.image = UIImage(data: movieData)
+                background.image = UIImage(data: movieData)
             } else {
                 movieImageView.image = UIImage(named: "noimage")
-                movieImageViewForBluer.image = nil
+                background.image = nil
             }
         }
     }
@@ -39,20 +39,28 @@ class DetaillMovieCell: UITableViewCell {
         }
     }
     
-    var movieAverage: Double? {
-        didSet {
-            if let movieAverage = movieAverage {
-                average.text = String(format: "%.1f", movieAverage)
-            }
-        }
-    }
-    
     var movieOverview: String? {
         didSet {
             if let movieOverview = movieOverview {
                 overview.text = movieOverview
             } else {
                 overview.text  = "No description"
+            }
+        }
+    }
+    
+    var fillArea: Double? {
+        didSet {
+            if let fillArea = fillArea {
+                average.fillArea = CGFloat(fillArea / 10)
+            }
+        }
+    }
+    
+    var beams: Int? {
+        didSet {
+            if let beams = beams {
+                average.beams = beams
             }
         }
     }

@@ -30,19 +30,19 @@ class MoviesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
             
-        setNavigationController()
+        setupNavigationControlleStyler()
         setupTableView()
-        setSearchBar()
+        setupSearchBar()
     }
     
-    private func setSearchBar() {
+    private func setupSearchBar() {
         searchBar.showsCancelButton = false
         searchBar.placeholder = "Enter your search here"
         searchBar.delegate = self
         navigationItem.titleView = searchBar
     }
 
-    private func setNavigationController() {
+    private func setupNavigationControlleStyler() {
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.tintColor = UIColor.white
@@ -90,15 +90,17 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! DetaillMovieCell
         cell.selectionStyle = .none
-        
+    
         if let viewModel = viewModel {
             let cellViewModel = viewModel.cellViewModel(index: indexPath.row)
             
             cell.movieTitle = cellViewModel.movieTitle()
-            cell.movieAverage = cellViewModel.movieAverage()
             cell.movieOverview = cellViewModel.movieOverview()
+            cell.fillArea = cellViewModel.movieAverage()
+            cell.beams = cellViewModel.beamsStars
+            
             cellViewModel.getImageData(completion: { data in
-                cell.movieData = data
+                    cell.movieData = data
             })
         }
         
@@ -112,19 +114,12 @@ extension MoviesViewController: UITableViewDelegate, UITableViewDataSource {
         
         if deltaOffset <= 0 {
             self.activityIndicator.startAnimating()
-            loadMoreMovies()
+            if let viewModel = viewModel {
+                viewModel.endScroll(completion: {
+                    self.table.reloadData()
+                })
+            }
         }
-    }
-    
-    func loadMoreMovies() {
-        if let viewModel = viewModel {
-          if viewModel.movieLoadStatus.loading {
-               viewModel.getPopularMovies(indexPage: viewModel.movieLoadStatus.page, completion: {
-                   self.activityIndicator.stopAnimating()
-                   self.table.reloadData()
-               })
-           }
-       }
     }
 }
 

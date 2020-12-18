@@ -24,26 +24,16 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationController()
-        setTableView()
+        setupNavigationControlleStyler()
+        setupTableView()
     }
     
-    private func setTableView() {
-        
-        let barHeight: CGFloat = {
-            var heightToReturn: CGFloat = 0.0
-                 for window in UIApplication.shared.windows {
-                     if let height = window.windowScene?.statusBarManager?.statusBarFrame.height, height > heightToReturn {
-                         heightToReturn = height
-                     }
-                 }
-            return heightToReturn
-        }()
-        
+    private func setupTableView() {
+
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
 
-        menuTableView = UITableView(frame: CGRect(x: 0, y: barHeight, width: displayWidth, height: displayHeight - barHeight))
+        menuTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight - 0))
         
         if let menuTableView = menuTableView {
             menuTableView.dataSource = self
@@ -57,7 +47,7 @@ class MenuViewController: UIViewController {
         }
     }
     
-    private func setNavigationController() {
+    private func setupNavigationControlleStyler() {
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.barStyle = .black
     }
