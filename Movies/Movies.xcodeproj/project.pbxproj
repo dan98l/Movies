@@ -28,6 +28,7 @@
 		A578D57B256249D4001C01B4 /* DetailMovieViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578D57A256249D4001C01B4 /* DetailMovieViewController.swift */; };
 		A578D57E256253FA001C01B4 /* DetailMovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A578D57D256253FA001C01B4 /* DetailMovieViewModel.swift */; };
 		A58DB9A625628E6500A00CAE /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58DB9A525628E6500A00CAE /* MenuViewController.swift */; };
+		A5B07F03258C958100760EDF /* MoviesCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B07F02258C958100760EDF /* MoviesCollectionCell.swift */; };
 		A5EC3982255CD19700A2DD9E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC3981255CD19700A2DD9E /* AppDelegate.swift */; };
 		A5EC3984255CD19700A2DD9E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5EC3983255CD19700A2DD9E /* SceneDelegate.swift */; };
 		A5EC3989255CD19700A2DD9E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5EC3987255CD19700A2DD9E /* Main.storyboard */; };
@@ -59,6 +60,7 @@
 		A578D57A256249D4001C01B4 /* DetailMovieViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewController.swift; sourceTree = "<group>"; };
 		A578D57D256253FA001C01B4 /* DetailMovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailMovieViewModel.swift; sourceTree = "<group>"; };
 		A58DB9A525628E6500A00CAE /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		A5B07F02258C958100760EDF /* MoviesCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesCollectionCell.swift; sourceTree = "<group>"; };
 		A5EC397E255CD19700A2DD9E /* Movies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Movies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5EC3981255CD19700A2DD9E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A5EC3983255CD19700A2DD9E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				A536A7142564BF950036ED15 /* DetaillMovieCell.swift */,
 				A536A71A256520260036ED15 /* SettingsViewController.swift */,
 				A51BB342257B49EB0013F45F /* StarShape.swift */,
+				A5B07F02258C958100760EDF /* MoviesCollectionCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				A578D57B256249D4001C01B4 /* DetailMovieViewController.swift in Sources */,
 				A520DF40255E665E0044F84A /* MoviesViewController.swift in Sources */,
 				A578D57E256253FA001C01B4 /* DetailMovieViewModel.swift in Sources */,
+				A5B07F03258C958100760EDF /* MoviesCollectionCell.swift in Sources */,
 				A5EC3984255CD19700A2DD9E /* SceneDelegate.swift in Sources */,
 				A55C330E2566531300D543C9 /* MovieKinopoisk.swift in Sources */,
 				A536A71B256520260036ED15 /* SettingsViewController.swift in Sources */,

@@ -14,4 +14,5 @@ protocol APIService {
     func getMovies(indexPage: Int, completion: @escaping () -> Void)
     func getImageData(posterPath: String, completion: @escaping (Data) -> Void)
     func getMoviesSearch(searchText: String, completion: @escaping ([Movies]) -> Void)
+    func getImageDataSerial(posterPath: [String], completion: @escaping ([Data]) -> Void)
 }

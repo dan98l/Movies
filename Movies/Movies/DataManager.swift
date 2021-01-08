@@ -31,6 +31,6 @@ class DataManager {
         if let answer = UserDefaults.standard.value(forKey: "beamsStars") {
             return answer as? Int
         }
-        return nil
+        return 5
     }
 }

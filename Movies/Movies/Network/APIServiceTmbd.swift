@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class APIServiceTmbd: APIService {
-    
+ 
     // MARK: - Properties
     private var urlString = "https://api.themoviedb.org/3/movie/popular?api_key=afb20793e1a7d571016fad7cdd7d6075&language=en-US&page="
     private var urlStringWithoutPage = "https://api.themoviedb.org/3/search/movie?api_key=afb20793e1a7d571016fad7cdd7d6075&query="
@@ -49,6 +49,20 @@ class APIServiceTmbd: APIService {
         AF.request(urlImageString + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)
+        }
+    }
+    
+    func getImageDataSerial(posterPath: [String], completion: @escaping ([Data]) -> Void) {
+        var dataImage = [Data]()
+        DispatchQueue.init(label: "image").async {
+            for poster in posterPath {
+                if let url = URL(string: self.urlImageString + poster) {
+                    if let data = try? Data(contentsOf: url) {
+                        dataImage.append(data)
+                    }
+                }
+            }
+            completion(dataImage)
         }
     }
     

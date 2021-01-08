@@ -11,13 +11,13 @@ import UIKit
 @IBDesignable
 class StarShape: UIView {
     
-    var fillArea: CGFloat = 0.0 {
+    @IBInspectable var fillArea: CGFloat = 0.0 {
         didSet {
             self.setNeedsDisplay()
         }
     }
     
-    var beams: Int = 5 {
+    @IBInspectable var beams: Int = 5 {
         didSet {
             self.setNeedsDisplay()
         }

@@ -25,6 +25,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
     
     func start() {
         moviesViewController = MoviesViewController.instantiate()
+        
         if let selectedDataSource = selectedDataSource, let beams = dataMenager.beamsStars() {
             moviesViewModel = MoviesViewModel(apiService: selectedDataSource, beamsStars: beams)
         }
@@ -74,7 +75,7 @@ final class MoviesCoordinator: Coordinator, MoviesViewModelDelegate {
         }
         settingSearchBar()
         if let moviesViewController = moviesViewController {
-            moviesViewController.setupTableView()
+            moviesViewController.setup()
             navigationController.setViewControllers([moviesViewController], animated: true)
         }
     }

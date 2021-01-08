@@ -18,6 +18,7 @@ final class MoviesViewModel {
     // MARK: - Properties
     var apiService: APIService?
     var beamsStars: Int?
+    var scrollIndex = 0
     
     weak var delegate: MoviesViewModelDelegate?
     var movies: [Movies]?
@@ -98,5 +99,33 @@ final class MoviesViewModel {
         viewModelCell.apiService = apiService
         viewModelCell.beamsStars = beamsStars
         return viewModelCell
+    }
+    
+    func scrollInCentre() -> Bool {
+        if scrollIndex < 7 {
+            scrollIndex += 1
+            return true
+        }
+        return false
+    }
+    
+    func movieCollection(completion: @escaping (([Movies]?, [Data]?) -> Void)) {
+        if let movies = self.movies, let api = apiService {
+            var moviesCollection = [Movies]()
+            var moviesPoster = [String]()
+            
+            let filmsCount = 10
+            
+            for index in 0..<filmsCount {
+                moviesCollection.append(movies[index])
+                if let poster = movies[index].posterPath {
+                    moviesPoster.append(poster)
+                }
+            }
+            
+            api.getImageDataSerial(posterPath: moviesPoster, completion: { data in
+                completion(moviesCollection, data)
+            })
+        }
     }
 }

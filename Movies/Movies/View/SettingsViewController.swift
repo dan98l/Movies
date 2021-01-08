@@ -42,6 +42,7 @@ class SettingsViewController: UIViewController {
             self.segmentControl.selectedSegmentIndex = model.segmentedControlIndex
             self.stars.beams = model.beamsStars
             self.steperrBeams.value = Double(model.beamsStars)
+            stars.fillArea = 0.0
         }
     }
     

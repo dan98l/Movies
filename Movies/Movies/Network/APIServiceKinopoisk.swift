@@ -13,7 +13,7 @@ class APIServiceKinopoisk: APIService {
     
     // MARK: - Properties
     private var urlStringWithoutPage = "https://api.kinopoisk.cloud/movies/all/page/"
-    private var urlStringPartToken = "/token/353adae387d51e7e97302a2eef43c29f"
+    private var urlStringPartToken = "/token/ec5eb9bdc670d2e6f8d3ee8fdbb3ff4d"
     var popularMoviesKinopoisk: [MovieKinopoisk] = []
     var searchMoviesKinopoisk: [MovieTmbd] = []
     var movies: [Movies] = []
@@ -47,6 +47,21 @@ class APIServiceKinopoisk: APIService {
         AF.request("https:" + posterPath).response { res in
             guard let data = res.data else { return }
             completion(data)
+        }
+    }
+    
+    func getImageDataSerial(posterPath: [String], completion: @escaping ([Data]) -> Void) {
+        
+        var dataImage = [Data]()
+        DispatchQueue.init(label: "image").async {
+            for poster in posterPath {
+                if let url = URL(string: "https:" + poster) {
+                    if let data = try? Data(contentsOf: url) {
+                        dataImage.append(data)
+                    }
+                }
+            }
+            completion(dataImage)
         }
     }
     
