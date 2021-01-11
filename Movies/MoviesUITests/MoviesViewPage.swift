@@ -14,8 +14,12 @@ class MoviesViewPage: AppPage {
         app.tables["movieTable"]
     }
     
-    var collectionMovies: XCUIElement {
+    var tableMoviesCell: XCUIElement {
         app.tables["movieTable"].cells["movieCell"]
+    }
+    
+    var collectionMovies: XCUIElement {
+        app.collectionViews["movieCollection"]
     }
     
     // MARK: - Actions
