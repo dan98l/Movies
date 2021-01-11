@@ -85,6 +85,7 @@ class MoviesViewController: UIViewController {
     }
     
     func setupCollectionView() {
+        self.collectionMovies.reloadData()
         if let model = viewModel {
             model.movieCollection(completion: { movies, dataImage in
                 if let data = dataImage, let movies = movies {
@@ -192,12 +193,6 @@ extension MoviesViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         cell.imageData = imagesDataCollection[indexPath.row % imagesDataCollection.count]
         cell.fillArea = moviesCollection[indexPath.row % moviesCollection.count].voteAverage
-        
-//        if let viewModel = viewModel {
-//            if viewModel.scrollInCentre() {
-//                collectionMovies.scrollToItem(at: [0, 250], at: .right, animated: false)
-//            }
-//        }
 
         return cell
     }
